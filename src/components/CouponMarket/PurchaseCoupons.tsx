@@ -91,10 +91,10 @@ function PurchaseCoupons({
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {/* User balance */}
           <div style={{flexBasis: '30%'}}>
-            <BalanceBlock asset={`Døllar Balance`} balance={balance}/>
+            <BalanceBlock asset={`Bitcoin Balance`} balance={balance}/>
           </div>
           <div style={{flexBasis: '40%'}}/>
-          {/* Approve DAO to spend Døllar */}
+          {/* Approve DAO to spend Bitcoin */}
           <div style={{flexBasis: '30%', paddingTop: '2%'}}>
             <Button
               wide

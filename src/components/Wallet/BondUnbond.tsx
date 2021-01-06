@@ -36,7 +36,7 @@ function BondUnbond({
         <div style={{flexBasis: '16%'}}>
           <TextBlock label="Exit Lockup" text={lockup === 0 ? "" : lockup === 1 ? "1 epoch" : `${lockup} epochs`}/>
         </div>
-        {/* Bond Døllar within DAO */}
+        {/* Bond Bitcoin within DAO */}
         <div style={{flexBasis: '33%', paddingTop: '2%'}}>
           <div style={{display: 'flex'}}>
             <div style={{width: '60%', minWidth: '6em'}}>
@@ -70,7 +70,7 @@ function BondUnbond({
           </div>
         </div>
         <div style={{width: '2%'}}/>
-        {/* Unbond Døllar within DAO */}
+        {/* Unbond Bitcoin within DAO */}
         <div style={{flexBasis: '33%', paddingTop: '2%'}}>
           <div style={{display: 'flex'}}>
             <div style={{width: '60%', minWidth: '6em'}}>

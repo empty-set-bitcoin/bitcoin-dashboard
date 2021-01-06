@@ -34,7 +34,7 @@ function WithdrawDeposit({
           <div style={{flexBasis: '32%'}}>
             <BalanceBlock asset="Staged" balance={stagedBalance} suffix={"ESD"}/>
           </div>
-          {/* Deposit Døllar into DAO */}
+          {/* Deposit Bitcoin into DAO */}
           <div style={{flexBasis: '33%', paddingTop: '2%'}}>
             <div style={{display: 'flex'}}>
               <div style={{width: '60%', minWidth: '6em'}}>
@@ -69,7 +69,7 @@ function WithdrawDeposit({
             </div>
           </div>
           <div style={{flexBasis: '2%'}}/>
-          {/* Withdraw Døllar from DAO */}
+          {/* Withdraw Bitcoin from DAO */}
           <div style={{flexBasis: '33%', paddingTop: '2%'}}>
             <div style={{display: 'flex'}}>
               <div style={{width: '60%', minWidth: '7em'}}>
@@ -111,7 +111,7 @@ function WithdrawDeposit({
             <BalanceBlock asset="Staged" balance={stagedBalance} suffix={"ESD"}/>
           </div>
           <div style={{flexBasis: '35%'}}/>
-          {/* Approve DAO to spend Døllar */}
+          {/* Approve DAO to spend Bitcoin */}
           <div style={{flexBasis: '33%', paddingTop: '2%'}}>
             <Button
               wide

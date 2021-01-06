@@ -1,12 +1,12 @@
-# døllar dashboard
+# bitcoin dashboard
 
-simple dashboard for interacting with the døllar protocol.
+simple dashboard for interacting with the bitcoin protocol.
 
 forked from [Opyn Monitor](https://opynmonitor.xyz).
 
 ## ipfs
 
-for convenience, the current IPFS build of døllar dashboard can be accessed here: [https://emptyset.finance](https://emptyset.finance)
+for convenience, the current IPFS build of bitcoin dashboard can be accessed here: [https://emptyset.finance](https://emptyset.finance)
 
 ## screenshot
 
