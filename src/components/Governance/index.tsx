@@ -7,7 +7,7 @@ import {
   getTokenBalance,
   getTokenTotalSupply,
 } from '../../utils/infura';
-import {ESDS} from "../../constants/tokens";
+import {ESBS} from "../../constants/tokens";
 import {toTokenUnitsBN} from "../../utils/number";
 import BigNumber from "bignumber.js";
 import GovernanceHeader from "./Header";
@@ -33,12 +33,12 @@ function Governance({ user }: {user: string}) {
 
     async function updateUserInfo() {
       const [statusStr, stakeStr] = await Promise.all([
-        getStatusOf(ESDS.addr, user),
-        getTokenBalance(ESDS.addr, user),
+        getStatusOf(ESBS.addr, user),
+        getTokenBalance(ESBS.addr, user),
       ]);
 
       if (!isCancelled) {
-        setStake(toTokenUnitsBN(stakeStr, ESDS.decimals));
+        setStake(toTokenUnitsBN(stakeStr, ESBS.decimals));
         setUserStatus(parseInt(statusStr, 10));
       }
     }
@@ -57,12 +57,12 @@ function Governance({ user }: {user: string}) {
 
     async function updateUserInfo() {
       const [totalStakeStr, implementationStr] = await Promise.all([
-        getTokenTotalSupply(ESDS.addr),
-        getImplementation(ESDS.addr),
+        getTokenTotalSupply(ESBS.addr),
+        getImplementation(ESBS.addr),
       ]);
 
       if (!isCancelled) {
-        setTotalStake(toTokenUnitsBN(totalStakeStr, ESDS.decimals));
+        setTotalStake(toTokenUnitsBN(totalStakeStr, ESBS.decimals));
         setImplementation(implementationStr)
       }
     }

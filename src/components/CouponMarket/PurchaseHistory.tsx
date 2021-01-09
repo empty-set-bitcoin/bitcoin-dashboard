@@ -4,7 +4,7 @@ import {
 } from '@aragon/ui';
 
 import {getBatchBalanceOfCoupons, getBatchCouponsExpiration, getCouponEpochs} from '../../utils/infura';
-import {ESD, ESDS} from "../../constants/tokens";
+import {ESB, ESBS} from "../../constants/tokens";
 import {formatBN, toBaseUnitBN, toTokenUnitsBN} from "../../utils/number";
 import BigNumber from "bignumber.js";
 import {redeemCoupons} from "../../utils/web3";
@@ -28,10 +28,10 @@ function PurchaseHistory({
     let isCancelled = false;
 
     async function updateUserInfo() {
-      const epochsFromEvents = await getCouponEpochs(ESDS.addr, user);
+      const epochsFromEvents = await getCouponEpochs(ESBS.addr, user);
       const epochNumbers = epochsFromEvents.map(e => parseInt(e.epoch));
-      const balanceOfCoupons = await getBatchBalanceOfCoupons(ESDS.addr, user, epochNumbers);
-      const couponsExpirations = await getBatchCouponsExpiration(ESDS.addr, epochNumbers);
+      const balanceOfCoupons = await getBatchBalanceOfCoupons(ESBS.addr, user, epochNumbers);
+      const couponsExpirations = await getBatchCouponsExpiration(ESBS.addr, epochNumbers);
 
       const couponEpochs = epochsFromEvents.map((epoch, i) => {
         epoch.balance = new BigNumber(balanceOfCoupons[i]);
@@ -66,17 +66,17 @@ function PurchaseHistory({
       onPageChange={setPage}
       renderEntry={(epoch) => [
         epoch.epoch.toString(),
-        formatBN(toTokenUnitsBN(epoch.coupons, ESD.decimals), 2),
-        formatBN(toTokenUnitsBN(epoch.balance, ESD.decimals), 2),
+        formatBN(toTokenUnitsBN(epoch.coupons, ESB.decimals), 2),
+        formatBN(toTokenUnitsBN(epoch.balance, ESB.decimals), 2),
         epoch.expiration.toString(),
         <Button
           icon={<IconCirclePlus />}
           label="Redeem"
           onClick={() => redeemCoupons(
-            ESDS.addr,
+            ESBS.addr,
             epoch.epoch,
-            epoch.balance.isGreaterThan(toBaseUnitBN(totalRedeemable, ESD.decimals))
-              ? toBaseUnitBN(totalRedeemable, ESD.decimals)
+            epoch.balance.isGreaterThan(toBaseUnitBN(totalRedeemable, ESB.decimals))
+              ? toBaseUnitBN(totalRedeemable, ESB.decimals)
               : epoch.balance
           )}
           disabled={epoch.balance.isZero()}

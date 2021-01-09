@@ -8,7 +8,7 @@ import {
 } from '../common/index';
 import { bond, unbondUnderlying } from '../../utils/web3';
 import {isPos, toBaseUnitBN} from '../../utils/number';
-import { ESD, ESDS } from "../../constants/tokens";
+import { ESB, ESBS } from "../../constants/tokens";
 import BigNumberInput from "../common/BigNumberInput";
 import TextBlock from "../common/TextBlock";
 
@@ -30,7 +30,7 @@ function BondUnbond({
       <div style={{display: 'flex', flexWrap: 'wrap'}}>
         {/* Total bonded */}
         <div style={{flexBasis: '16%'}}>
-          <BalanceBlock asset="Bonded" balance={bonded} suffix={"ESD"}/>
+          <BalanceBlock asset="Bonded" balance={bonded} suffix={"ESB"}/>
         </div>
         {/* Total bonded */}
         <div style={{flexBasis: '16%'}}>
@@ -42,7 +42,7 @@ function BondUnbond({
             <div style={{width: '60%', minWidth: '6em'}}>
               <>
                 <BigNumberInput
-                  adornment="ESD"
+                  adornment="ESB"
                   value={bondAmount}
                   setter={setBondAmount}
                 />
@@ -60,8 +60,8 @@ function BondUnbond({
                 label="Bond"
                 onClick={() => {
                   bond(
-                    ESDS.addr,
-                    toBaseUnitBN(bondAmount, ESD.decimals),
+                    ESBS.addr,
+                    toBaseUnitBN(bondAmount, ESB.decimals),
                   );
                 }}
                 disabled={status === 2 || !isPos(bondAmount) || bondAmount.isGreaterThan(staged)}
@@ -76,7 +76,7 @@ function BondUnbond({
             <div style={{width: '60%', minWidth: '6em'}}>
               <>
                 <BigNumberInput
-                  adornment="ESD"
+                  adornment="ESB"
                   value={unbondAmount}
                   setter={setUnbondAmount}
                 />
@@ -94,8 +94,8 @@ function BondUnbond({
                 label="Unbond"
                 onClick={() => {
                   unbondUnderlying(
-                    ESDS.addr,
-                    toBaseUnitBN(unbondAmount, ESD.decimals),
+                    ESBS.addr,
+                    toBaseUnitBN(unbondAmount, ESB.decimals),
                   );
                 }}
                 disabled={status === 2 || !isPos(unbondAmount) || unbondAmount.isGreaterThan(bonded)}

@@ -7,7 +7,7 @@ import {
   getTokenBalance,
   getTokenTotalSupply
 } from "../../utils/infura";
-import {ESD, ESDS, UNI} from "../../constants/tokens";
+import {ESB, ESBS, UNI} from "../../constants/tokens";
 import {formatBN, toTokenUnitsBN} from "../../utils/number";
 import {getPoolAddress} from "../../utils/pool";
 
@@ -30,16 +30,16 @@ function TotalBalance({ user }: TotalBalanceProps) {
       const poolAddress = await getPoolAddress();
 
       const [
-        esdBalance, stagedBalance, bondedBalance,
-        pairBalanceESDStr, pairTotalSupplyUNIStr, userUNIBalanceStr,
+        esbBalance, stagedBalance, bondedBalance,
+        pairBalanceESBStr, pairTotalSupplyUNIStr, userUNIBalanceStr,
         userPoolBondedBalanceStr, userPoolStagedBalanceStr,
         userPoolRewardedBalanceStr, userPoolClaimableBalanceStr,
       ] = await Promise.all([
-        getTokenBalance(ESD.addr, user),
-        getBalanceOfStaged(ESDS.addr, user),
-        getBalanceBonded(ESDS.addr, user),
+        getTokenBalance(ESB.addr, user),
+        getBalanceOfStaged(ESBS.addr, user),
+        getBalanceBonded(ESBS.addr, user),
 
-        getTokenBalance(ESD.addr, UNI.addr),
+        getTokenBalance(ESB.addr, UNI.addr),
         getTokenTotalSupply(UNI.addr),
         getTokenBalance(UNI.addr, user),
         getPoolBalanceOfBonded(poolAddress, user),
@@ -48,22 +48,22 @@ function TotalBalance({ user }: TotalBalanceProps) {
         getPoolBalanceOfClaimable(poolAddress, user),
       ]);
 
-      const userBalance = toTokenUnitsBN(new BigNumber(esdBalance), ESD.decimals);
-      const userStagedBalance = toTokenUnitsBN(new BigNumber(stagedBalance), ESDS.decimals);
-      const userBondedBalance = toTokenUnitsBN(new BigNumber(bondedBalance), ESDS.decimals);
+      const userBalance = toTokenUnitsBN(new BigNumber(esbBalance), ESB.decimals);
+      const userStagedBalance = toTokenUnitsBN(new BigNumber(stagedBalance), ESBS.decimals);
+      const userBondedBalance = toTokenUnitsBN(new BigNumber(bondedBalance), ESBS.decimals);
 
-      const userUNIBalance = toTokenUnitsBN(new BigNumber(userUNIBalanceStr), ESDS.decimals);
-      const userPoolBondedBalance = toTokenUnitsBN(new BigNumber(userPoolBondedBalanceStr), ESDS.decimals);
-      const userPoolStagedBalance = toTokenUnitsBN(new BigNumber(userPoolStagedBalanceStr), ESDS.decimals);
-      const userPoolRewardedBalance = toTokenUnitsBN(new BigNumber(userPoolRewardedBalanceStr), ESDS.decimals);
-      const userPoolClaimableBalance = toTokenUnitsBN(new BigNumber(userPoolClaimableBalanceStr), ESDS.decimals);
+      const userUNIBalance = toTokenUnitsBN(new BigNumber(userUNIBalanceStr), ESBS.decimals);
+      const userPoolBondedBalance = toTokenUnitsBN(new BigNumber(userPoolBondedBalanceStr), ESBS.decimals);
+      const userPoolStagedBalance = toTokenUnitsBN(new BigNumber(userPoolStagedBalanceStr), ESBS.decimals);
+      const userPoolRewardedBalance = toTokenUnitsBN(new BigNumber(userPoolRewardedBalanceStr), ESBS.decimals);
+      const userPoolClaimableBalance = toTokenUnitsBN(new BigNumber(userPoolClaimableBalanceStr), ESBS.decimals);
 
-      const UNItoESD = new BigNumber(pairBalanceESDStr).dividedBy(new BigNumber(pairTotalSupplyUNIStr));
+      const UNItoESB = new BigNumber(pairBalanceESBStr).dividedBy(new BigNumber(pairTotalSupplyUNIStr));
 
       const daoTotalBalance = userStagedBalance.plus(userBondedBalance);
-      const poolTotalBalance = UNItoESD.multipliedBy(userPoolStagedBalance.plus(userPoolBondedBalance))
+      const poolTotalBalance = UNItoESB.multipliedBy(userPoolStagedBalance.plus(userPoolBondedBalance))
         .plus(userPoolRewardedBalance.plus(userPoolClaimableBalance));
-      const circulationBalance = UNItoESD.multipliedBy(userUNIBalance).plus(userBalance)
+      const circulationBalance = UNItoESB.multipliedBy(userUNIBalance).plus(userBalance)
 
       const totalBalance = daoTotalBalance.plus(poolTotalBalance).plus(circulationBalance)
 

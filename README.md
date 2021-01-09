@@ -58,4 +58,4 @@ limitations under the License.
 ```
 
 <br>
-made with 💔️ by the {ess}.
+inspired by 💔️ by the {ess}.

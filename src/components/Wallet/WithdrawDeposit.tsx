@@ -8,7 +8,7 @@ import {
 } from '../common/index';
 import {approve, deposit, withdraw} from '../../utils/web3';
 import {isPos, toBaseUnitBN} from '../../utils/number';
-import {ESD, ESDS} from "../../constants/tokens";
+import {ESB, ESBS} from "../../constants/tokens";
 import {MAX_UINT256} from "../../constants/values";
 import BigNumberInput from "../common/BigNumberInput";
 
@@ -32,7 +32,7 @@ function WithdrawDeposit({
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {/* total Issued */}
           <div style={{flexBasis: '32%'}}>
-            <BalanceBlock asset="Staged" balance={stagedBalance} suffix={"ESD"}/>
+            <BalanceBlock asset="Staged" balance={stagedBalance} suffix={"ESB"}/>
           </div>
           {/* Deposit Bitcoin into DAO */}
           <div style={{flexBasis: '33%', paddingTop: '2%'}}>
@@ -40,7 +40,7 @@ function WithdrawDeposit({
               <div style={{width: '60%', minWidth: '6em'}}>
                 <>
                   <BigNumberInput
-                    adornment="ESD"
+                    adornment="ESB"
                     value={depositAmount}
                     setter={setDepositAmount}
                     disabled={status !== 0}
@@ -59,8 +59,8 @@ function WithdrawDeposit({
                   label="Deposit"
                   onClick={() => {
                     deposit(
-                      ESDS.addr,
-                      toBaseUnitBN(depositAmount, ESD.decimals),
+                      ESBS.addr,
+                      toBaseUnitBN(depositAmount, ESB.decimals),
                     );
                   }}
                   disabled={status === 1 || !isPos(depositAmount) || depositAmount.isGreaterThan(balance)}
@@ -75,7 +75,7 @@ function WithdrawDeposit({
               <div style={{width: '60%', minWidth: '7em'}}>
                 <>
                   <BigNumberInput
-                    adornment="ESD"
+                    adornment="ESB"
                     value={withdrawAmount}
                     setter={setWithdrawAmount}
                     disabled={status !== 0}
@@ -94,8 +94,8 @@ function WithdrawDeposit({
                   label="Withdraw"
                   onClick={() => {
                     withdraw(
-                      ESDS.addr,
-                      toBaseUnitBN(withdrawAmount, ESD.decimals),
+                      ESBS.addr,
+                      toBaseUnitBN(withdrawAmount, ESB.decimals),
                     );
                   }}
                   disabled={status === 1 || !isPos(withdrawAmount) || withdrawAmount.isGreaterThan(stagedBalance)}
@@ -108,7 +108,7 @@ function WithdrawDeposit({
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {/* total Issued */}
           <div style={{flexBasis: '32%'}}>
-            <BalanceBlock asset="Staged" balance={stagedBalance} suffix={"ESD"}/>
+            <BalanceBlock asset="Staged" balance={stagedBalance} suffix={"ESB"}/>
           </div>
           <div style={{flexBasis: '35%'}}/>
           {/* Approve DAO to spend Bitcoin */}
@@ -118,7 +118,7 @@ function WithdrawDeposit({
               icon={<IconCirclePlus />}
               label="Approve"
               onClick={() => {
-                approve(ESD.addr, ESDS.addr);
+                approve(ESB.addr, ESBS.addr);
               }}
               disabled={user === ''}
             />

@@ -5,7 +5,7 @@ import {
 import BigNumber from 'bignumber.js';
 import {recordVote} from '../../utils/web3';
 
-import {ESDS} from "../../constants/tokens";
+import {ESBS} from "../../constants/tokens";
 import {canPropose} from "../../utils/gov";
 
 type ProposeCandidateProps = {
@@ -52,7 +52,7 @@ function ProposeCandidate({
             label="Propose"
             onClick={() => {
               recordVote(
-                ESDS.addr,
+                ESBS.addr,
                 candidate,
                 1 // APPROVE
               );

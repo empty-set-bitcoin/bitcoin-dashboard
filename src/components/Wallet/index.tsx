@@ -8,7 +8,7 @@ import {
   getStatusOf, getTokenAllowance,
   getTokenBalance, getTokenTotalSupply,
 } from '../../utils/infura';
-import {ESD, ESDS} from "../../constants/tokens";
+import {ESB, ESBS} from "../../constants/tokens";
 import {DAO_EXIT_LOCKUP_EPOCHS} from "../../constants/values";
 import { toTokenUnitsBN } from '../../utils/number';
 
@@ -25,10 +25,10 @@ function Wallet({ user }: {user: string}) {
     user = override;
   }
 
-  const [userESDBalance, setUserESDBalance] = useState(new BigNumber(0));
-  const [userESDAllowance, setUserESDAllowance] = useState(new BigNumber(0));
-  const [userESDSBalance, setUserESDSBalance] = useState(new BigNumber(0));
-  const [totalESDSSupply, setTotalESDSSupply] = useState(new BigNumber(0));
+  const [userESBBalance, setUserESBBalance] = useState(new BigNumber(0));
+  const [userESBAllowance, setUserESBAllowance] = useState(new BigNumber(0));
+  const [userESBSBalance, setUserESBSBalance] = useState(new BigNumber(0));
+  const [totalESBSSupply, setTotalESBSSupply] = useState(new BigNumber(0));
   const [userStagedBalance, setUserStagedBalance] = useState(new BigNumber(0));
   const [userBondedBalance, setUserBondedBalance] = useState(new BigNumber(0));
   const [userStatus, setUserStatus] = useState(0);
@@ -38,10 +38,10 @@ function Wallet({ user }: {user: string}) {
   //Update User balances
   useEffect(() => {
     if (user === '') {
-      setUserESDBalance(new BigNumber(0));
-      setUserESDAllowance(new BigNumber(0));
-      setUserESDSBalance(new BigNumber(0));
-      setTotalESDSSupply(new BigNumber(0));
+      setUserESBBalance(new BigNumber(0));
+      setUserESBAllowance(new BigNumber(0));
+      setUserESBSBalance(new BigNumber(0));
+      setTotalESBSSupply(new BigNumber(0));
       setUserStagedBalance(new BigNumber(0));
       setUserBondedBalance(new BigNumber(0));
       setUserStatus(0);
@@ -51,36 +51,36 @@ function Wallet({ user }: {user: string}) {
 
     async function updateUserInfo() {
       const [
-        esdBalance, esdAllowance, esdsBalance, esdsSupply, stagedBalance, bondedBalance, status, poolAddress,
+        esbBalance, esbAllowance, esbsBalance, esbsSupply, stagedBalance, bondedBalance, status, poolAddress,
         fluidUntilStr, lockedUntilStr
       ] = await Promise.all([
-        getTokenBalance(ESD.addr, user),
-        getTokenAllowance(ESD.addr, user, ESDS.addr),
-        getTokenBalance(ESDS.addr, user),
-        getTokenTotalSupply(ESDS.addr),
-        getBalanceOfStaged(ESDS.addr, user),
-        getBalanceBonded(ESDS.addr, user),
-        getStatusOf(ESDS.addr, user),
+        getTokenBalance(ESB.addr, user),
+        getTokenAllowance(ESB.addr, user, ESBS.addr),
+        getTokenBalance(ESBS.addr, user),
+        getTokenTotalSupply(ESBS.addr),
+        getBalanceOfStaged(ESBS.addr, user),
+        getBalanceBonded(ESBS.addr, user),
+        getStatusOf(ESBS.addr, user),
         getPoolAddress(),
 
-        getFluidUntil(ESDS.addr, user),
-        getLockedUntil(ESDS.addr, user),
+        getFluidUntil(ESBS.addr, user),
+        getLockedUntil(ESBS.addr, user),
       ]);
 
-      const userESDBalance = toTokenUnitsBN(esdBalance, ESD.decimals);
-      const userESDSBalance = toTokenUnitsBN(esdsBalance, ESDS.decimals);
-      const totalESDSSupply = toTokenUnitsBN(esdsSupply, ESDS.decimals);
-      const userStagedBalance = toTokenUnitsBN(stagedBalance, ESDS.decimals);
-      const userBondedBalance = toTokenUnitsBN(bondedBalance, ESDS.decimals);
+      const userESBBalance = toTokenUnitsBN(esbBalance, ESB.decimals);
+      const userESBSBalance = toTokenUnitsBN(esbsBalance, ESBS.decimals);
+      const totalESBSSupply = toTokenUnitsBN(esbsSupply, ESBS.decimals);
+      const userStagedBalance = toTokenUnitsBN(stagedBalance, ESBS.decimals);
+      const userBondedBalance = toTokenUnitsBN(bondedBalance, ESBS.decimals);
       const userStatus = parseInt(status, 10);
       const fluidUntil = parseInt(fluidUntilStr, 10);
       const lockedUntil = parseInt(lockedUntilStr, 10);
 
       if (!isCancelled) {
-        setUserESDBalance(new BigNumber(userESDBalance));
-        setUserESDAllowance(new BigNumber(esdAllowance));
-        setUserESDSBalance(new BigNumber(userESDSBalance));
-        setTotalESDSSupply(new BigNumber(totalESDSSupply));
+        setUserESBBalance(new BigNumber(userESBBalance));
+        setUserESBAllowance(new BigNumber(esbAllowance));
+        setUserESBSBalance(new BigNumber(userESBSBalance));
+        setTotalESBSSupply(new BigNumber(totalESBSSupply));
         setUserStagedBalance(new BigNumber(userStagedBalance));
         setUserBondedBalance(new BigNumber(userBondedBalance));
         setUserStatus(userStatus);
@@ -103,9 +103,9 @@ function Wallet({ user }: {user: string}) {
       <IconHeader icon={<i className="fas fa-dot-circle"/>} text="DAO"/>
 
       <AccountPageHeader
-        accountESDBalance={userESDBalance}
-        accountESDSBalance={userESDSBalance}
-        totalESDSSupply={totalESDSSupply}
+        accountESBBalance={userESBBalance}
+        accountESBSBalance={userESBSBalance}
+        totalESBSSupply={totalESBSSupply}
         accountStagedBalance={userStagedBalance}
         accountBondedBalance={userBondedBalance}
         accountStatus={userStatus}
@@ -114,8 +114,8 @@ function Wallet({ user }: {user: string}) {
 
       <WithdrawDeposit
         user={user}
-        balance={userESDBalance}
-        allowance={userESDAllowance}
+        balance={userESBBalance}
+        allowance={userESBAllowance}
         stagedBalance={userStagedBalance}
         status={userStatus}
       />

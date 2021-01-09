@@ -3,30 +3,30 @@ import {
   Box, Button, IconCirclePlus,
 } from '@aragon/ui';
 import BigNumber from 'bignumber.js';
-import {mintTestnetUSDC} from '../../utils/web3';
+import {mintTestnetSBTC} from '../../utils/web3';
 
 import { BalanceBlock } from '../common/index';
 import {isPos, toBaseUnitBN} from '../../utils/number';
-import {USDC} from "../../constants/tokens";
+import {SBTC} from "../../constants/tokens";
 import BigNumberInput from "../common/BigNumberInput";
 
-type MintUSDCProps = {
+type MintSBTCProps = {
   user: string,
-  userBalanceUSDC: BigNumber,
+  userBalanceSBTC: BigNumber,
 }
 
 
-function MintUSDC({
-  user, userBalanceUSDC
-}: MintUSDCProps) {
+function MintSBTC({
+  user, userBalanceSBTC
+}: MintSBTCProps) {
   const [mintAmount, setMintAmount] = useState(new BigNumber(0));
 
   return (
     <Box heading="Mint">
       <div style={{ display: 'flex' }}>
-        {/* USDC balance */}
+        {/* SBTC balance */}
         <div style={{ width: '30%' }}>
-          <BalanceBlock asset="USDC Balance" balance={userBalanceUSDC} />
+          <BalanceBlock asset="SBTC Balance" balance={userBalanceSBTC} />
         </div>
         {/* Mint */}
         <div style={{ width: '38%'}} />
@@ -34,7 +34,7 @@ function MintUSDC({
           <div style={{display: 'flex'}}>
             <div style={{width: '60%'}}>
               <BigNumberInput
-                adornment="USDC"
+                adornment="SBTC"
                 value={mintAmount}
                 setter={setMintAmount}
               />
@@ -45,7 +45,7 @@ function MintUSDC({
                 icon={<IconCirclePlus />}
                 label="Mint"
                 onClick={() => {
-                  mintTestnetUSDC(toBaseUnitBN(mintAmount, USDC.decimals));
+                  mintTestnetSBTC(toBaseUnitBN(mintAmount, SBTC.decimals));
                 }}
                 disabled={user === '' || !isPos(mintAmount)}
               />
@@ -57,4 +57,4 @@ function MintUSDC({
   );
 }
 
-export default MintUSDC;
+export default MintSBTC;

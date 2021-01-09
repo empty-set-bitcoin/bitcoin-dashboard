@@ -5,10 +5,10 @@ import BigNumber from 'bignumber.js';
 import { notify } from './txNotifier.ts';
 import { UniswapV2Router02 } from '../constants/contracts';
 
-import { ESD, USDC } from '../constants/tokens';
+import { ESB, SBTC } from '../constants/tokens';
 
 const uniswapRouterAbi = require('../constants/abi/UniswapV2Router02.json');
-const testnetUSDCAbi = require('../constants/abi/TestnetUSDC.json');
+const testnetSBTCAbi = require('../constants/abi/TestnetSBTC.json');
 const daoAbi = require('../constants/abi/Implementation.json');
 const poolAbi = require('../constants/abi/Pool.json');
 
@@ -57,7 +57,7 @@ export const checkConnectedAndGetAddress = async () => {
 
 export const approve = async (tokenAddr, spender, amt = UINT256_MAX) => {
   const account = await checkConnectedAndGetAddress();
-  const oToken = new window.web3.eth.Contract(testnetUSDCAbi, tokenAddr);
+  const oToken = new window.web3.eth.Contract(testnetSBTCAbi, tokenAddr);
   await oToken.methods
     .approve(spender, amt)
     .send({ from: account })
@@ -66,11 +66,11 @@ export const approve = async (tokenAddr, spender, amt = UINT256_MAX) => {
     });
 };
 
-export const mintTestnetUSDC = async (amount) => {
+export const mintTestnetSBTC = async (amount) => {
   const account = await checkConnectedAndGetAddress();
-  const usdc = new window.web3.eth.Contract(testnetUSDCAbi, USDC.addr);
+  const sbtc = new window.web3.eth.Contract(testnetSBTCAbi, SBTC.addr);
 
-  await usdc.methods.mint(account, new BigNumber(amount).toFixed())
+  await sbtc.methods.mint(account, new BigNumber(amount).toFixed())
     .send({ from: account })
     .on('transactionHash', (hash) => {
       notify.hash(hash);
@@ -81,7 +81,7 @@ export const mintTestnetUSDC = async (amount) => {
  * Uniswap Protocol
  */
 
-export const buyESD = async (buyAmount, maxInputAmount) => {
+export const buyESB = async (buyAmount, maxInputAmount) => {
   const account = await checkConnectedAndGetAddress();
   const router = new window.web3.eth.Contract(uniswapRouterAbi, UniswapV2Router02);
   const deadline = Math.ceil(Date.now() / 1000) + DEADLINE_FROM_NOW;
@@ -89,7 +89,7 @@ export const buyESD = async (buyAmount, maxInputAmount) => {
   await router.methods.swapTokensForExactTokens(
     buyAmount,
     maxInputAmount,
-    [USDC.addr, ESD.addr],
+    [SBTC.addr, ESB.addr],
     account,
     deadline,
   )
@@ -99,7 +99,7 @@ export const buyESD = async (buyAmount, maxInputAmount) => {
     });
 };
 
-export const sellESD = async (sellAmount, minOutputAmount) => {
+export const sellESB = async (sellAmount, minOutputAmount) => {
   const account = await checkConnectedAndGetAddress();
   const router = new window.web3.eth.Contract(uniswapRouterAbi, UniswapV2Router02);
   const deadline = Math.ceil(Date.now() / 1000) + DEADLINE_FROM_NOW;
@@ -107,7 +107,7 @@ export const sellESD = async (sellAmount, minOutputAmount) => {
   await router.methods.swapExactTokensForTokens(
     sellAmount,
     minOutputAmount,
-    [ESD.addr, USDC.addr],
+    [ESB.addr, SBTC.addr],
     account,
     deadline,
   )
@@ -117,25 +117,25 @@ export const sellESD = async (sellAmount, minOutputAmount) => {
     });
 };
 
-export const addLiquidity = async (amountESD, amountUSDC, slippage) => {
+export const addLiquidity = async (amountESB, amountSBTC, slippage) => {
   const account = await checkConnectedAndGetAddress();
   const router = new window.web3.eth.Contract(uniswapRouterAbi, UniswapV2Router02);
   const deadline = Math.ceil(Date.now() / 1000) + DEADLINE_FROM_NOW;
   const slippageBN = new BigNumber(slippage);
-  const minAmountESD = new BigNumber(amountESD)
+  const minAmountESB = new BigNumber(amountESB)
     .multipliedBy(new BigNumber(1).minus(slippageBN))
     .integerValue(BigNumber.ROUND_FLOOR);
-  const minAmountUSDC = new BigNumber(amountUSDC)
+  const minAmountSBTC = new BigNumber(amountSBTC)
     .multipliedBy(new BigNumber(1).minus(slippageBN))
     .integerValue(BigNumber.ROUND_FLOOR);
 
   await router.methods.addLiquidity(
-    ESD.addr,
-    USDC.addr,
-    new BigNumber(amountESD).toFixed(),
-    new BigNumber(amountUSDC).toFixed(),
-    minAmountESD,
-    minAmountUSDC,
+    ESB.addr,
+    SBTC.addr,
+    new BigNumber(amountESB).toFixed(),
+    new BigNumber(amountSBTC).toFixed(),
+    minAmountESB,
+    minAmountSBTC,
     account,
     deadline,
   )
@@ -145,17 +145,17 @@ export const addLiquidity = async (amountESD, amountUSDC, slippage) => {
     });
 };
 
-export const removeLiquidity = async (liquidityAmount, minAmountESD, minAmountUSDC) => {
+export const removeLiquidity = async (liquidityAmount, minAmountESB, minAmountSBTC) => {
   const account = await checkConnectedAndGetAddress();
   const router = new window.web3.eth.Contract(uniswapRouterAbi, UniswapV2Router02);
   const deadline = Math.ceil(Date.now() / 1000) + DEADLINE_FROM_NOW;
 
   await router.methods.removeLiquidity(
-    ESD.addr,
-    USDC.addr,
+    ESB.addr,
+    SBTC.addr,
     new BigNumber(liquidityAmount).toFixed(),
-    new BigNumber(minAmountESD).toFixed(),
-    new BigNumber(minAmountUSDC).toFixed(),
+    new BigNumber(minAmountESB).toFixed(),
+    new BigNumber(minAmountSBTC).toFixed(),
     account,
     deadline,
   )

@@ -8,31 +8,31 @@ import { removeLiquidity } from '../../utils/web3';
 import { BalanceBlock, MaxButton, PriceSection } from '../common/index';
 import { toBaseUnitBN } from '../../utils/number';
 import {decreaseWithSlippage} from "../../utils/calculation";
-import {ESD, UNI, USDC} from "../../constants/tokens";
+import {ESB, UNI, SBTC} from "../../constants/tokens";
 import BigNumberInput from "../common/BigNumberInput";
 
 type RemoveLiquidityProps = {
   userBalanceUNI: BigNumber,
-  pairBalanceESD: BigNumber,
-  pairBalanceUSDC: BigNumber,
+  pairBalanceESB: BigNumber,
+  pairBalanceSBTC: BigNumber,
   pairTotalSupplyUNI: BigNumber,
 }
 
 
 function RemoveLiquidity({
   userBalanceUNI,
-  pairBalanceESD,
-  pairBalanceUSDC,
+  pairBalanceESB,
+  pairBalanceSBTC,
   pairTotalSupplyUNI,
 }: RemoveLiquidityProps) {
   const [withdrawAmountUNI, setWithdrawAmountUNI] = useState(new BigNumber(0));
 
   const poolPortion = withdrawAmountUNI.div(pairTotalSupplyUNI);
-  const estimatedUSDCReceived = pairBalanceUSDC.times(poolPortion);
-  const estimatedESDReceived = pairBalanceESD.times(poolPortion);
+  const estimatedSBTCReceived = pairBalanceSBTC.times(poolPortion);
+  const estimatedESBReceived = pairBalanceESB.times(poolPortion);
 
-  const minUSDCReceived = decreaseWithSlippage(estimatedUSDCReceived);
-  const minESDReceived = decreaseWithSlippage(estimatedESDReceived);
+  const minSBTCReceived = decreaseWithSlippage(estimatedSBTCReceived);
+  const minESBReceived = decreaseWithSlippage(estimatedESBReceived);
 
   const onChangeWithdrawAmountUNI = (amountUNI) => {
     if (!amountUNI) {
@@ -65,8 +65,8 @@ function RemoveLiquidity({
             </div>
             <div style={{ width: '35%', marginRight: '5%' }}>
               <>
-                <PriceSection label="You get " amt={estimatedUSDCReceived} symbol=" USDC" />
-                <PriceSection label="+ " amt={estimatedESDReceived} symbol=" ESD" />
+                <PriceSection label="You get " amt={estimatedSBTCReceived} symbol=" SBTC" />
+                <PriceSection label="+ " amt={estimatedESBReceived} symbol=" ESB" />
               </>
             </div>
             <div style={{ width: '30%' }}>
@@ -77,8 +77,8 @@ function RemoveLiquidity({
                 onClick={() => {
                   removeLiquidity(
                     toBaseUnitBN(withdrawAmountUNI, UNI.decimals),
-                    toBaseUnitBN(minESDReceived, ESD.decimals),
-                    toBaseUnitBN(minUSDCReceived, USDC.decimals),
+                    toBaseUnitBN(minESBReceived, ESB.decimals),
+                    toBaseUnitBN(minSBTCReceived, SBTC.decimals),
                   );
                 }}
               />

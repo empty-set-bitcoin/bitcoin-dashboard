@@ -6,25 +6,25 @@ import { getTokenBalance } from "../../utils/infura";
 import { toTokenUnitsBN } from "../../utils/number";
 
 import TradePageHeader from "./Header";
-import { ESD, UNI, USDC } from "../../constants/tokens";
+import { ESB, UNI, SBTC } from "../../constants/tokens";
 import IconHeader from "../common/IconHeader";
 
 function UniswapPool({ user }: { user: string }) {
-  const [pairBalanceESD, setPairBalanceESD] = useState(new BigNumber(0));
-  const [pairBalanceUSDC, setPairBalanceUSDC] = useState(new BigNumber(0));
+  const [pairBalanceESB, setPairBalanceESB] = useState(new BigNumber(0));
+  const [pairBalanceSBTC, setPairBalanceSBTC] = useState(new BigNumber(0));
 
   useEffect(() => {
     let isCancelled = false;
 
     async function updateUserInfo() {
-      const [pairBalanceESDStr, pairBalanceUSDCStr] = await Promise.all([
-        getTokenBalance(ESD.addr, UNI.addr),
-        getTokenBalance(USDC.addr, UNI.addr),
+      const [pairBalanceESBStr, pairBalanceSBTCStr] = await Promise.all([
+        getTokenBalance(ESB.addr, UNI.addr),
+        getTokenBalance(SBTC.addr, UNI.addr),
       ]);
 
       if (!isCancelled) {
-        setPairBalanceESD(toTokenUnitsBN(pairBalanceESDStr, ESD.decimals));
-        setPairBalanceUSDC(toTokenUnitsBN(pairBalanceUSDCStr, USDC.decimals));
+        setPairBalanceESB(toTokenUnitsBN(pairBalanceESBStr, ESB.decimals));
+        setPairBalanceSBTC(toTokenUnitsBN(pairBalanceSBTCStr, SBTC.decimals));
       }
     }
 
@@ -43,8 +43,8 @@ function UniswapPool({ user }: { user: string }) {
       <IconHeader icon={<i className="fas fa-exchange-alt" />} text="Trade" />
 
       <TradePageHeader
-        pairBalanceESD={pairBalanceESD}
-        pairBalanceUSDC={pairBalanceUSDC}
+        pairBalanceESB={pairBalanceESB}
+        pairBalanceSBTC={pairBalanceSBTC}
         uniswapPair={UNI.addr}
       />
 
@@ -59,7 +59,7 @@ function UniswapPool({ user }: { user: string }) {
         <div style={{ flexBasis: "30%", marginRight: "3%", marginLeft: "2%" }}>
           <MainButton
             title="Info"
-            description="View ESD-USDC pool stats."
+            description="View ESB-SBTC pool stats."
             icon={<i className="fas fa-chart-area" />}
             href={
               "https://uniswap.info/pair/0x88ff79eb2bc5850f27315415da8685282c7610f9"

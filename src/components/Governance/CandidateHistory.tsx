@@ -12,7 +12,7 @@ import {
   getRejectFor,
   getTokenTotalSupply, getTotalBondedAt
 } from '../../utils/infura';
-import {ESDS} from "../../constants/tokens";
+import {ESBS} from "../../constants/tokens";
 import {AddressBlock} from "../common";
 import {proposalStatus} from "../../utils/gov";
 import BigNumber from "bignumber.js";
@@ -31,14 +31,14 @@ type Proposal = {
 }
 
 async function formatProposals(epoch: number, proposals: any[]): Promise<Proposal[]> {
-  const currentTotalStake = await getTokenTotalSupply(ESDS.addr);
-  const initializeds = await Promise.all(proposals.map((p) => getIsInitialized(ESDS.addr, p.candidate)));
-  const approves = await Promise.all(proposals.map((p) => getApproveFor(ESDS.addr, p.candidate)));
-  const rejecteds = await Promise.all(proposals.map((p) => getRejectFor(ESDS.addr, p.candidate)));
+  const currentTotalStake = await getTokenTotalSupply(ESBS.addr);
+  const initializeds = await Promise.all(proposals.map((p) => getIsInitialized(ESBS.addr, p.candidate)));
+  const approves = await Promise.all(proposals.map((p) => getApproveFor(ESBS.addr, p.candidate)));
+  const rejecteds = await Promise.all(proposals.map((p) => getRejectFor(ESBS.addr, p.candidate)));
   const supplyAts = await Promise.all(proposals.map(async (p) => {
     const at = (p.start + p.period - 1);
     if (epoch > at) {
-      return await getTotalBondedAt(ESDS.addr, at);
+      return await getTotalBondedAt(ESBS.addr, at);
     }
     return currentTotalStake;
   }));
@@ -71,8 +71,8 @@ function CandidateHistory({user}: CandidateHistoryProps) {
 
     async function updateUserInfo() {
       const [epochStr, allProposals] = await Promise.all([
-        getEpoch(ESDS.addr),
-        getAllProposals(ESDS.addr),
+        getEpoch(ESBS.addr),
+        getAllProposals(ESBS.addr),
       ]);
 
       if (!isCancelled) {
