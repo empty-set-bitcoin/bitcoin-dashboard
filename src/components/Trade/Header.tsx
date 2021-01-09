@@ -5,25 +5,25 @@ import { BalanceBlock, AddressBlock } from '../common/index';
 
 type TradePageHeaderProps = {
   pairBalanceESB: BigNumber,
-  pairBalanceSBTC: BigNumber,
+  pairBalanceWBTC: BigNumber,
   uniswapPair: string,
 };
 
 const TradePageHeader = ({
-  pairBalanceESB, pairBalanceSBTC, uniswapPair,
+  pairBalanceESB, pairBalanceWBTC, uniswapPair,
 }: TradePageHeaderProps) => {
-  const price = pairBalanceSBTC.dividedBy(pairBalanceESB);
+  const price = pairBalanceWBTC.dividedBy(pairBalanceESB);
 
   return (
     <div style={{ padding: '2%', display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
       <div style={{ flexBasis: '25%' }}>
-        <BalanceBlock asset="ESB Price" balance={price} suffix={"SBTC"}/>
+        <BalanceBlock asset="ESB Price" balance={price} suffix={"WBTC"}/>
       </div>
       <div style={{ flexBasis: '25%' }}>
         <BalanceBlock asset="ESB Liquidity" balance={pairBalanceESB} suffix={"ESB"}/>
       </div>
       <div style={{ flexBasis: '25%' }}>
-        <BalanceBlock asset="SBTC Liquidity" balance={pairBalanceSBTC} suffix={"SBTC"}/>
+        <BalanceBlock asset="WBTC Liquidity" balance={pairBalanceWBTC} suffix={"WBTC"}/>
       </div>
       <div style={{ flexBasis: '25%' }}>
         <>

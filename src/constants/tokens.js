@@ -1,13 +1,13 @@
 export const UNI = {
-  addr: '0x88ff79eB2Bc5850F27315415da8685282C7610F9', // this is a uni pair for ESB and SBTC (will need to update for sBTC and ESB)
+  addr: '0x88ff79eB2Bc5850F27315415da8685282C7610F9', // this is a uni pair for ESB and WBTC (will need to update for WBTC and ESB)
   decimals: 18,
   symbol: 'UNI',
 };
 
-export const SBTC = {
-  addr: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // this needs to be sBTC contract
+export const WBTC = {
+  addr: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // this needs to be WBTC contract
   decimals: 18, // I beleive this should be 18
-  symbol: 'SBTC', // This should be updated to show sBTC
+  symbol: 'WBTC', // This should be updated to show WBTC
 };
 
 export const ESB = {

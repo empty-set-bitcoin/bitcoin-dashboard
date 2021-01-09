@@ -11,7 +11,7 @@ import {
   getTokenBalance,
   getPoolFluidUntil
 } from '../../utils/infura';
-import {ESB, UNI, SBTC} from "../../constants/tokens";
+import {ESB, UNI, WBTC} from "../../constants/tokens";
 import {POOL_EXIT_LOCKUP_EPOCHS} from "../../constants/values";
 import { toTokenUnitsBN } from '../../utils/number';
 import { Header } from '@aragon/ui';
@@ -37,11 +37,11 @@ function Pool({ user }: {user: string}) {
   const [poolAddress, setPoolAddress] = useState("");
   const [poolTotalBonded, setPoolTotalBonded] = useState(new BigNumber(0));
   const [pairBalanceESB, setPairBalanceESB] = useState(new BigNumber(0));
-  const [pairBalanceSBTC, setPairBalanceSBTC] = useState(new BigNumber(0));
+  const [pairBalanceWBTC, setPairBalanceWBTC] = useState(new BigNumber(0));
   const [userUNIBalance, setUserUNIBalance] = useState(new BigNumber(0));
   const [userUNIAllowance, setUserUNIAllowance] = useState(new BigNumber(0));
-  const [userSBTCBalance, setUserSBTCBalance] = useState(new BigNumber(0));
-  const [userSBTCAllowance, setUserSBTCAllowance] = useState(new BigNumber(0));
+  const [userWBTCBalance, setUserWBTCBalance] = useState(new BigNumber(0));
+  const [userWBTCAllowance, setUserWBTCAllowance] = useState(new BigNumber(0));
   const [userStagedBalance, setUserStagedBalance] = useState(new BigNumber(0));
   const [userBondedBalance, setUserBondedBalance] = useState(new BigNumber(0));
   const [userRewardedBalance, setUserRewardedBalance] = useState(new BigNumber(0));
@@ -61,11 +61,11 @@ function Pool({ user }: {user: string}) {
       setPoolAddress("");
       setPoolTotalBonded(new BigNumber(0));
       setPairBalanceESB(new BigNumber(0));
-      setPairBalanceSBTC(new BigNumber(0));
+      setPairBalanceWBTC(new BigNumber(0));
       setUserUNIBalance(new BigNumber(0));
       setUserUNIAllowance(new BigNumber(0));
-      setUserSBTCBalance(new BigNumber(0));
-      setUserSBTCAllowance(new BigNumber(0));
+      setUserWBTCBalance(new BigNumber(0));
+      setUserWBTCAllowance(new BigNumber(0));
       setUserStagedBalance(new BigNumber(0));
       setUserBondedBalance(new BigNumber(0));
       setUserRewardedBalance(new BigNumber(0));
@@ -86,19 +86,19 @@ function Pool({ user }: {user: string}) {
       const legacyPoolAddress = getLegacyPoolAddress(poolAddressStr);
 
       const [
-        poolTotalBondedStr, pairBalanceESBStr, pairBalanceSBTCStr, balance, sbtcBalance,
-        allowance, sbtcAllowance, stagedBalance, bondedBalance,
+        poolTotalBondedStr, pairBalanceESBStr, pairBalanceWBTCStr, balance, wbtcBalance,
+        allowance, wbtcAllowance, stagedBalance, bondedBalance,
         rewardedBalance, claimableBalance, status, fluidUntilStr,
         legacyStagedBalance, legacyBondedBalance, legacyRewardedBalance, legacyClaimableBalance, legacyStatus
       ] = await Promise.all([
         getPoolTotalBonded(poolAddressStr),
         getTokenBalance(ESB.addr, UNI.addr),
-        getTokenBalance(SBTC.addr, UNI.addr),
+        getTokenBalance(WBTC.addr, UNI.addr),
         getTokenBalance(UNI.addr, user),
-        getTokenBalance(SBTC.addr, user),
+        getTokenBalance(WBTC.addr, user),
 
         getTokenAllowance(UNI.addr, user, poolAddressStr),
-        getTokenAllowance(SBTC.addr, user, poolAddressStr),
+        getTokenAllowance(WBTC.addr, user, poolAddressStr),
         getPoolBalanceOfStaged(poolAddressStr, user),
         getPoolBalanceOfBonded(poolAddressStr, user),
 
@@ -116,9 +116,9 @@ function Pool({ user }: {user: string}) {
 
       const poolTotalBonded = toTokenUnitsBN(poolTotalBondedStr, ESB.decimals);
       const pairESBBalance = toTokenUnitsBN(pairBalanceESBStr, ESB.decimals);
-      const pairSBTCBalance = toTokenUnitsBN(pairBalanceSBTCStr, SBTC.decimals);
+      const pairWBTCBalance = toTokenUnitsBN(pairBalanceWBTCStr, WBTC.decimals);
       const userUNIBalance = toTokenUnitsBN(balance, UNI.decimals);
-      const userSBTCBalance = toTokenUnitsBN(sbtcBalance, SBTC.decimals);
+      const userWBTCBalance = toTokenUnitsBN(wbtcBalance, WBTC.decimals);
       const userStagedBalance = toTokenUnitsBN(stagedBalance, UNI.decimals);
       const userBondedBalance = toTokenUnitsBN(bondedBalance, UNI.decimals);
       const userRewardedBalance = toTokenUnitsBN(rewardedBalance, ESB.decimals);
@@ -135,11 +135,11 @@ function Pool({ user }: {user: string}) {
         setPoolAddress(poolAddressStr);
         setPoolTotalBonded(new BigNumber(poolTotalBonded));
         setPairBalanceESB(new BigNumber(pairESBBalance));
-        setPairBalanceSBTC(new BigNumber(pairSBTCBalance));
+        setPairBalanceWBTC(new BigNumber(pairWBTCBalance));
         setUserUNIBalance(new BigNumber(userUNIBalance));
         setUserUNIAllowance(new BigNumber(allowance));
-        setUserSBTCAllowance(new BigNumber(sbtcAllowance));
-        setUserSBTCBalance(new BigNumber(userSBTCBalance));
+        setUserWBTCAllowance(new BigNumber(wbtcAllowance));
+        setUserWBTCBalance(new BigNumber(userWBTCBalance));
         setUserStagedBalance(new BigNumber(userStagedBalance));
         setUserBondedBalance(new BigNumber(userBondedBalance));
         setUserRewardedBalance(new BigNumber(userRewardedBalance));
@@ -224,9 +224,9 @@ function Pool({ user }: {user: string}) {
         rewarded={isRewardedNegative ? new BigNumber(0) : userRewardedBalance}
         status={userStatus}
         pairBalanceESB={pairBalanceESB}
-        pairBalanceSBTC={pairBalanceSBTC}
-        userSBTCBalance={userSBTCBalance}
-        userSBTCAllowance={userSBTCAllowance}
+        pairBalanceWBTC={pairBalanceWBTC}
+        userWBTCBalance={userWBTCBalance}
+        userWBTCAllowance={userWBTCAllowance}
       />
     </>
   );

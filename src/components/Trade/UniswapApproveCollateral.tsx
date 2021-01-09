@@ -5,18 +5,18 @@ import {
 import BigNumber from 'bignumber.js';
 import { approve } from '../../utils/web3';
 
-import {ESB, SBTC} from "../../constants/tokens";
+import {ESB, WBTC} from "../../constants/tokens";
 import {MAX_UINT256} from "../../constants/values";
 import {UniswapV2Router02} from "../../constants/contracts";
 
 type UniswapApproveCollateralProps = {
   user: string,
   userAllowanceESB: BigNumber
-  userAllowanceSBTC: BigNumber
+  userAllowanceWBTC: BigNumber
 };
 
 function UniswapApproveCollateral({
-  user, userAllowanceESB, userAllowanceSBTC,
+  user, userAllowanceESB, userAllowanceWBTC,
 }: UniswapApproveCollateralProps) {
   return (
     <Box heading="Unlock for Uniswap">
@@ -34,17 +34,17 @@ function UniswapApproveCollateral({
             disabled={user === '' || userAllowanceESB.comparedTo(MAX_UINT256) === 0}
           />
         </div>
-        {/* Approve Uniswap Router to spend SBTC */}
+        {/* Approve Uniswap Router to spend WBTC */}
         <div style={{width: '6%'}} />
         <div style={{width: '27%', paddingTop: '2%'}}>
           <Button
             wide
             icon={<IconCirclePlus />}
-            label="Unlock SBTC"
+            label="Unlock WBTC"
             onClick={() => {
-              approve(SBTC.addr, UniswapV2Router02);
+              approve(WBTC.addr, UniswapV2Router02);
             }}
-            disabled={user === '' || userAllowanceSBTC.comparedTo(MAX_UINT256.dividedBy(2)) > 0}
+            disabled={user === '' || userAllowanceWBTC.comparedTo(MAX_UINT256.dividedBy(2)) > 0}
           />
         </div>
       </div>

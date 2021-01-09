@@ -2,7 +2,7 @@ import Web3 from 'web3';
 
 import BigNumber from 'bignumber.js';
 import { UniswapV2Router02 } from '../constants/contracts';
-import { ESB, UNI, SBTC } from '../constants/tokens';
+import { ESB, UNI, WBTC } from '../constants/tokens';
 import { POOL_EXIT_LOCKUP_EPOCHS } from '../constants/values';
 
 const bitcoinAbi = require('../constants/abi/Bitcoin.json');
@@ -426,7 +426,7 @@ export const getCost = async (amount) => {
   // eslint-disable-next-line no-unused-vars
   const [inputAmount, _] = await exchange.methods.getAmountsIn(
     new BigNumber(amount).toFixed(),
-    [SBTC.addr, ESB.addr],
+    [WBTC.addr, ESB.addr],
   ).call();
   return inputAmount;
 };
@@ -436,7 +436,7 @@ export const getProceeds = async (amount) => {
   // eslint-disable-next-line no-unused-vars
   const [_, outputAmount] = await exchange.methods.getAmountsOut(
     new BigNumber(amount).toFixed(),
-    [ESB.addr, SBTC.addr],
+    [ESB.addr, WBTC.addr],
   ).call();
   return outputAmount;
 };
@@ -450,7 +450,7 @@ export const getInstantaneousPrice = async () => {
   const [reserve, token0] = await Promise.all([getReserves(), getToken0()]);
   const token0Balance = new BigNumber(reserve.reserve0);
   const token1Balance = new BigNumber(reserve.reserve1);
-  if (token0.toLowerCase() === SBTC.addr.toLowerCase()) {
+  if (token0.toLowerCase() === WBTC.addr.toLowerCase()) {
     return token0Balance.multipliedBy(new BigNumber(10).pow(12)).dividedBy(token1Balance);
   }
   return token1Balance.multipliedBy(new BigNumber(10).pow(12)).dividedBy(token0Balance);

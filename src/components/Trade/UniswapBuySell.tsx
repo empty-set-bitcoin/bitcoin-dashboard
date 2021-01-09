@@ -12,7 +12,7 @@ import { getCost, getProceeds } from '../../utils/infura';
 
 
 import {isPos, toBaseUnitBN, toTokenUnitsBN} from '../../utils/number';
-import {ESB, SBTC} from "../../constants/tokens";
+import {ESB, WBTC} from "../../constants/tokens";
 import {decreaseWithSlippage, increaseWithSlippage} from "../../utils/calculation";
 import BigNumberInput from "../common/BigNumberInput";
 
@@ -40,7 +40,7 @@ function UniswapBuySell({
       return;
     }
     const cost = await getCost(toBaseUnitBN(buyAmountBN, ESB.decimals));
-    setCost(toTokenUnitsBN(new BigNumber(cost), SBTC.decimals));
+    setCost(toTokenUnitsBN(new BigNumber(cost), WBTC.decimals));
   };
 
   const updateProceeds = async (sellAmount) => {
@@ -50,7 +50,7 @@ function UniswapBuySell({
       return;
     }
     const proceeds = await getProceeds(toBaseUnitBN(sellAmountBN, ESB.decimals));
-    setProceeds(toTokenUnitsBN(new BigNumber(proceeds), SBTC.decimals));
+    setProceeds(toTokenUnitsBN(new BigNumber(proceeds), WBTC.decimals));
   };
 
   return (
@@ -83,13 +83,13 @@ function UniswapBuySell({
                 onClick={() => {
                   buyESB(
                     toBaseUnitBN(buyAmount, ESB.decimals),
-                    increaseWithSlippage(toBaseUnitBN(cost, SBTC.decimals)),
+                    increaseWithSlippage(toBaseUnitBN(cost, WBTC.decimals)),
                   );
                 }}
               />
             </div>
           </div>
-          <PriceSection label="Cost: " amt={cost} symbol=" SBTC" />
+          <PriceSection label="Cost: " amt={cost} symbol=" WBTC" />
         </div>
         <div style={{ width: '6%' }} />
         {/* Sell Token on Uniswap */}
@@ -111,7 +111,7 @@ function UniswapBuySell({
                     updateProceeds(userBalanceESB);
                   }}
                 />
-                <PriceSection label="Proceeds: " amt={proceeds} symbol=" SBTC"/>
+                <PriceSection label="Proceeds: " amt={proceeds} symbol=" WBTC"/>
               </>
             </div>
             <div style={{ width: '40%' }}>
@@ -122,7 +122,7 @@ function UniswapBuySell({
                 onClick={() => {
                   sellESB(
                     toBaseUnitBN(sellAmount, ESB.decimals),
-                    decreaseWithSlippage(toBaseUnitBN(proceeds, SBTC.decimals)),
+                    decreaseWithSlippage(toBaseUnitBN(proceeds, WBTC.decimals)),
                   );
                 }}
               />

@@ -8,13 +8,13 @@ import { removeLiquidity } from '../../utils/web3';
 import { BalanceBlock, MaxButton, PriceSection } from '../common/index';
 import { toBaseUnitBN } from '../../utils/number';
 import {decreaseWithSlippage} from "../../utils/calculation";
-import {ESB, UNI, SBTC} from "../../constants/tokens";
+import {ESB, UNI, WBTC} from "../../constants/tokens";
 import BigNumberInput from "../common/BigNumberInput";
 
 type RemoveLiquidityProps = {
   userBalanceUNI: BigNumber,
   pairBalanceESB: BigNumber,
-  pairBalanceSBTC: BigNumber,
+  pairBalanceWBTC: BigNumber,
   pairTotalSupplyUNI: BigNumber,
 }
 
@@ -22,16 +22,16 @@ type RemoveLiquidityProps = {
 function RemoveLiquidity({
   userBalanceUNI,
   pairBalanceESB,
-  pairBalanceSBTC,
+  pairBalanceWBTC,
   pairTotalSupplyUNI,
 }: RemoveLiquidityProps) {
   const [withdrawAmountUNI, setWithdrawAmountUNI] = useState(new BigNumber(0));
 
   const poolPortion = withdrawAmountUNI.div(pairTotalSupplyUNI);
-  const estimatedSBTCReceived = pairBalanceSBTC.times(poolPortion);
+  const estimatedWBTCReceived = pairBalanceWBTC.times(poolPortion);
   const estimatedESBReceived = pairBalanceESB.times(poolPortion);
 
-  const minSBTCReceived = decreaseWithSlippage(estimatedSBTCReceived);
+  const minWBTCReceived = decreaseWithSlippage(estimatedWBTCReceived);
   const minESBReceived = decreaseWithSlippage(estimatedESBReceived);
 
   const onChangeWithdrawAmountUNI = (amountUNI) => {
@@ -65,7 +65,7 @@ function RemoveLiquidity({
             </div>
             <div style={{ width: '35%', marginRight: '5%' }}>
               <>
-                <PriceSection label="You get " amt={estimatedSBTCReceived} symbol=" SBTC" />
+                <PriceSection label="You get " amt={estimatedWBTCReceived} symbol=" WBTC" />
                 <PriceSection label="+ " amt={estimatedESBReceived} symbol=" ESB" />
               </>
             </div>
@@ -78,7 +78,7 @@ function RemoveLiquidity({
                   removeLiquidity(
                     toBaseUnitBN(withdrawAmountUNI, UNI.decimals),
                     toBaseUnitBN(minESBReceived, ESB.decimals),
-                    toBaseUnitBN(minSBTCReceived, SBTC.decimals),
+                    toBaseUnitBN(minWBTCReceived, WBTC.decimals),
                   );
                 }}
               />

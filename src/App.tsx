@@ -19,7 +19,8 @@ import Pool from "./components/Pool";
 import HomePageNoWeb3 from "./components/HomePageNoWeb3";
 
 function App() {
-  const storedTheme = getPreference('theme', 'dark');
+  const storedTheme = getPreference('theme', 'light');
+  console.log(storedTheme)
 
   const [hasWeb3, setHasWeb3] = useState(false);
   const [user, setUser] = useState(''); // the current connected user

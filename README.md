@@ -34,7 +34,7 @@ npm start
 - `` **Implementation**
 - `` **Bitcoin**
 - `` **Oracle**
-- `` **UniswapV2 sBTC:ESB Pair**
+- `` **UniswapV2 WBTC:ESB Pair**
 - `` **LP Incentivation Pool**
 
 ## disclaimer

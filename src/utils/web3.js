@@ -5,10 +5,10 @@ import BigNumber from 'bignumber.js';
 import { notify } from './txNotifier.ts';
 import { UniswapV2Router02 } from '../constants/contracts';
 
-import { ESB, SBTC } from '../constants/tokens';
+import { ESB, WBTC } from '../constants/tokens';
 
 const uniswapRouterAbi = require('../constants/abi/UniswapV2Router02.json');
-const testnetSBTCAbi = require('../constants/abi/TestnetSBTC.json');
+const testnetWBTCAbi = require('../constants/abi/TestnetWBTC.json');
 const daoAbi = require('../constants/abi/Implementation.json');
 const poolAbi = require('../constants/abi/Pool.json');
 
@@ -57,7 +57,7 @@ export const checkConnectedAndGetAddress = async () => {
 
 export const approve = async (tokenAddr, spender, amt = UINT256_MAX) => {
   const account = await checkConnectedAndGetAddress();
-  const oToken = new window.web3.eth.Contract(testnetSBTCAbi, tokenAddr);
+  const oToken = new window.web3.eth.Contract(testnetWBTCAbi, tokenAddr);
   await oToken.methods
     .approve(spender, amt)
     .send({ from: account })
@@ -66,11 +66,11 @@ export const approve = async (tokenAddr, spender, amt = UINT256_MAX) => {
     });
 };
 
-export const mintTestnetSBTC = async (amount) => {
+export const mintTestnetWBTC = async (amount) => {
   const account = await checkConnectedAndGetAddress();
-  const sbtc = new window.web3.eth.Contract(testnetSBTCAbi, SBTC.addr);
+  const wbtc = new window.web3.eth.Contract(testnetWBTCAbi, WBTC.addr);
 
-  await sbtc.methods.mint(account, new BigNumber(amount).toFixed())
+  await wbtc.methods.mint(account, new BigNumber(amount).toFixed())
     .send({ from: account })
     .on('transactionHash', (hash) => {
       notify.hash(hash);
@@ -89,7 +89,7 @@ export const buyESB = async (buyAmount, maxInputAmount) => {
   await router.methods.swapTokensForExactTokens(
     buyAmount,
     maxInputAmount,
-    [SBTC.addr, ESB.addr],
+    [WBTC.addr, ESB.addr],
     account,
     deadline,
   )
@@ -107,7 +107,7 @@ export const sellESB = async (sellAmount, minOutputAmount) => {
   await router.methods.swapExactTokensForTokens(
     sellAmount,
     minOutputAmount,
-    [ESB.addr, SBTC.addr],
+    [ESB.addr, WBTC.addr],
     account,
     deadline,
   )
@@ -117,7 +117,7 @@ export const sellESB = async (sellAmount, minOutputAmount) => {
     });
 };
 
-export const addLiquidity = async (amountESB, amountSBTC, slippage) => {
+export const addLiquidity = async (amountESB, amountWBTC, slippage) => {
   const account = await checkConnectedAndGetAddress();
   const router = new window.web3.eth.Contract(uniswapRouterAbi, UniswapV2Router02);
   const deadline = Math.ceil(Date.now() / 1000) + DEADLINE_FROM_NOW;
@@ -125,17 +125,17 @@ export const addLiquidity = async (amountESB, amountSBTC, slippage) => {
   const minAmountESB = new BigNumber(amountESB)
     .multipliedBy(new BigNumber(1).minus(slippageBN))
     .integerValue(BigNumber.ROUND_FLOOR);
-  const minAmountSBTC = new BigNumber(amountSBTC)
+  const minAmountWBTC = new BigNumber(amountWBTC)
     .multipliedBy(new BigNumber(1).minus(slippageBN))
     .integerValue(BigNumber.ROUND_FLOOR);
 
   await router.methods.addLiquidity(
     ESB.addr,
-    SBTC.addr,
+    WBTC.addr,
     new BigNumber(amountESB).toFixed(),
-    new BigNumber(amountSBTC).toFixed(),
+    new BigNumber(amountWBTC).toFixed(),
     minAmountESB,
-    minAmountSBTC,
+    minAmountWBTC,
     account,
     deadline,
   )
@@ -145,17 +145,17 @@ export const addLiquidity = async (amountESB, amountSBTC, slippage) => {
     });
 };
 
-export const removeLiquidity = async (liquidityAmount, minAmountESB, minAmountSBTC) => {
+export const removeLiquidity = async (liquidityAmount, minAmountESB, minAmountWBTC) => {
   const account = await checkConnectedAndGetAddress();
   const router = new window.web3.eth.Contract(uniswapRouterAbi, UniswapV2Router02);
   const deadline = Math.ceil(Date.now() / 1000) + DEADLINE_FROM_NOW;
 
   await router.methods.removeLiquidity(
     ESB.addr,
-    SBTC.addr,
+    WBTC.addr,
     new BigNumber(liquidityAmount).toFixed(),
     new BigNumber(minAmountESB).toFixed(),
-    new BigNumber(minAmountSBTC).toFixed(),
+    new BigNumber(minAmountWBTC).toFixed(),
     account,
     deadline,
   )
