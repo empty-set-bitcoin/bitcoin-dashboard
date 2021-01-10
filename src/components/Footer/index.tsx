@@ -26,11 +26,11 @@ function Footer({updateTheme, theme, hasWeb3}: FooterProps) {
         <div style={{maxWidth: '1100px', marginLeft: 'auto', marginRight: 'auto'}}>
           <div style={{ padding: '2%', display: 'flex'}}>
             <div style={{ width: '50%', textAlign: 'left' }}>
-              <FooterLink icon={<i className="fab fa-github"/>} href={"https://www.github.com/empty-set-bitcoin/bitcoin"}/>
               <FooterLink icon={<i className="fab fa-twitter"/>} href={"https://www.twitter.com/emptysetbitcoin"}/>
-              <FooterLink icon={<i className="fab fa-medium"/>} href={"https://www.medium.com/@emptysetbitcoin"}/>
+              <FooterLink icon={<i className="fab fa-github"/>} href={"https://www.github.com/empty-set-bitcoin/bitcoin"}/>
+              {/* <FooterLink icon={<i className="fab fa-medium"/>} href={"https://www.medium.com/@emptysetbitcoin"}/>
               <FooterLink icon={<i className="fab fa-telegram"/>} href={"https://www.t.me/emptysetbitcoin"}/>
-              <FooterLink icon={<i className="fab fa-discord"/>} href={"https://discord.gg/vPws9Vp"}/>
+              <FooterLink icon={<i className="fab fa-discord"/>} href={"https://discord.gg/vPws9Vp"}/> */}
             </div>
             <div style={{ width: '45%', textAlign: 'right', height: '18px', marginTop: '15px', marginBottom: '15px'}}>
               inspired by <span role="img" aria-labelledby="heartbreak">💔️</span> by the &#123;ess&#125;.

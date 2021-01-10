@@ -62,7 +62,7 @@ function UniswapPool({ user }: { user: string }) {
             description="View ESB-WBTC pool stats."
             icon={<i className="fas fa-chart-area" />}
             href={
-              "https://uniswap.info/pair/0x88ff79eb2bc5850f27315415da8685282c7610f9"
+              "https://uniswap.info/pair/0x88ff79eb2bc5850f27315415da8685282c7610f9" // This needs to change to the uniswap contract that will be used for ESB and WBTC
             }
           />
         </div>
@@ -73,7 +73,7 @@ function UniswapPool({ user }: { user: string }) {
             description="Trade bitcoin tokens."
             icon={<i className="fas fa-exchange-alt" />}
             href={
-              "https://uniswap.exchange/swap?inputCurrency=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&outputCurrency=0x36f3fd68e7325a35eb768f1aedaae9ea0689d723"
+              "https://uniswap.exchange/swap?inputCurrency=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&outputCurrency=0x36f3fd68e7325a35eb768f1aedaae9ea0689d723" // this will need to change to the swap that will occur for ESB and WBTC
             }
           />
         </div>
@@ -84,7 +84,7 @@ function UniswapPool({ user }: { user: string }) {
             description="Supply and redeem liquidity."
             icon={<i className="fas fa-water" />}
             href={
-              "https://uniswap.exchange/add/0x36f3fd68e7325a35eb768f1aedaae9ea0689d723/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+              "https://uniswap.exchange/add/0x36f3fd68e7325a35eb768f1aedaae9ea0689d723/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" // this will need to change to the pool screen that will exist for ESB and WBTC
             }
           />
         </div>

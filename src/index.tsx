@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import 'react-widgets/dist/css/react-widgets.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import './index.css';
 
 import Moment from 'moment'
 import momentLocalizer from 'react-widgets-moment';
