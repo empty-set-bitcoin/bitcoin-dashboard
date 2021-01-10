@@ -17,7 +17,7 @@ import WithdrawDeposit from "./WithdrawDeposit";
 import BondUnbond from "./BondUnbond";
 import IconHeader from "../common/IconHeader";
 import {getPoolAddress} from "../../utils/pool";
-import {DollarPool4} from "../../constants/contracts";
+import {BitcoinPool1} from "../../constants/contracts";
 
 function Wallet({ user }: {user: string}) {
   const { override } = useParams();
@@ -85,7 +85,7 @@ function Wallet({ user }: {user: string}) {
         setUserBondedBalance(new BigNumber(userBondedBalance));
         setUserStatus(userStatus);
         setUserStatusUnlocked(Math.max(fluidUntil, lockedUntil))
-        setLockup(poolAddress === DollarPool4 ? DAO_EXIT_LOCKUP_EPOCHS : 1);
+        setLockup(poolAddress === BitcoinPool1 ? DAO_EXIT_LOCKUP_EPOCHS : 1);
       }
     }
     updateUserInfo();
