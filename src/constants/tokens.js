@@ -1,5 +1,5 @@
 export const UNI = {
-  addr: '', // this is a uni pair for ESB and WBTC (will need to update for WBTC and ESB)
+  addr: '0x10a0A9EF463bDE88A22137aD1e32240ea9CD559D', // this is a uni pair for ESB and WBTC (will need to update for WBTC and ESB)
   decimals: 18,
   symbol: 'UNI',
 };
@@ -11,13 +11,13 @@ export const WBTC = {
 };
 
 export const ESB = {
-  addr: '', // once contract is deployed this should be updated
+  addr: '0xC929e85DAB215705b0473c846196Afc94DFe2455', // once contract is deployed this should be updated
   decimals: 18, // this is fine
   symbol: 'ESB', // this will be ESB
 };
 
 export const ESBS = {
-  addr: '', // once contract is deployed with the proxy this will need change
+  addr: '0x5Daa79222c2Be77Ae76F9FcddC64dB0A5E6AeD82', // once contract is deployed with the proxy this will need change
   decimals: 18, // fine
   symbol: 'ESBS', // will become ESBS after deployed
 };
