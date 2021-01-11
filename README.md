@@ -6,7 +6,7 @@ forked from [Opyn Monitor](https://opynmonitor.xyz).
 
 ## ipfs
 
-for convenience, the current IPFS build of bitcoin dashboard can be accessed here: [https://emptyset.finance](https://emptyset.finance)
+for convenience, the current IPFS build of bitcoin dashboard can be accessed here: [https://emptysetbitcoin.org](https://emptysetbitcoin.org)
 
 ## screenshot
 
