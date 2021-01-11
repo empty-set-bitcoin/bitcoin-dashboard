@@ -465,7 +465,7 @@ export const getToken0 = async () => {
 
 export const getPoolStatusOf = async (pool, account) => {
   const poolContract = new web3.eth.Contract(poolAbi, pool);
-  return poolContract.methods.statusOf(account, 10).call();
+  return poolContract.methods.statusOf(account, 30).call();
 };
 
 /**
@@ -500,7 +500,7 @@ export const getPoolBalanceOfStaged = async (pool, account) => {
 export const getPoolBalanceOfRewarded = async (pool, account) => {
   if (account === '') return '0';
   const poolContract = new web3.eth.Contract(poolAbi, pool);
-  return poolContract.methods.balanceOfRewarded(account, WBTC.addr).call();
+  return poolContract.methods.balanceOfRewarded(account, ESB.addr).call();
 };
 
 /**
@@ -533,7 +533,7 @@ export const getPoolTotalBonded = async (pool) => {
  */
 export const getPoolTotalRewarded = async (pool) => {
   const poolContract = new web3.eth.Contract(poolAbi, pool);
-  return poolContract.methods.totalRewarded(WBTC.addr).call();
+  return poolContract.methods.totalRewarded(ESB.addr).call();
 };
 
 /**
