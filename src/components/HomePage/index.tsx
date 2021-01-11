@@ -4,7 +4,7 @@ import { Box, LinkBase, Tag } from "@aragon/ui";
 import EpochBlock from "../common/EpochBlock";
 
 function epochformatted() {
-  const epochStart = 1610298000; // update this time according to when you actually launch it
+  const epochStart = 1610240400; // update this time according to when you actually launch it
   const epochPeriod = 2 * 60 * 60;
   const hour = 60 * 60;
   const minute = 60;

@@ -14,7 +14,7 @@ import {
 import {ESB, UNI, WBTC} from "../../constants/tokens";
 import {POOL_EXIT_LOCKUP_EPOCHS} from "../../constants/values";
 import { toTokenUnitsBN } from '../../utils/number';
-import { Header } from '@aragon/ui';
+// import { Header } from '@aragon/ui';
 
 import WithdrawDeposit from "./WithdrawDeposit";
 import BondUnbond from "./BondUnbond";
@@ -22,7 +22,7 @@ import PoolPageHeader from "./Header";
 import Claim from "./Claim";
 import Provide from "./Provide";
 import IconHeader from "../common/IconHeader";
-import Migrate from "./Migrate";
+// import Migrate from "./Migrate";
 import {getLegacyPoolAddress, getPoolAddress} from "../../utils/pool";
 import {BitcoinPool1} from "../../constants/contracts";
 
@@ -170,20 +170,6 @@ function Pool({ user }: {user: string}) {
     <>
       <IconHeader icon={<i className="fas fa-parachute-box"/>} text="LP Reward Pool"/>
 
-      {hasLegacyBalance ?
-        <>
-          <Header primary={"Legacy Pool Migration"}/>
-
-          <Migrate
-            legacyPoolAddress={getLegacyPoolAddress(poolAddress)}
-            isRewardNegative={isRewardedNegative}
-            staged={legacyUserStagedBalance}
-            claimable={legacyUserClaimableBalance}
-            bonded={legacyUserBondedBalance}
-            status={legacyUserStatus}
-          />
-        </>
-        : ''}
 
       <PoolPageHeader
         accountUNIBalance={userUNIBalance}

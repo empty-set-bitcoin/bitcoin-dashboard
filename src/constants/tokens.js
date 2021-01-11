@@ -6,7 +6,7 @@ export const UNI = {
 
 export const WBTC = {
   addr: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', // this needs to be WBTC contract
-  decimals: 18, // I beleive this should be 18
+  decimals: 8, // I beleive this should be 18
   symbol: 'WBTC', // This should be updated to show WBTC
 };
 
@@ -17,7 +17,7 @@ export const ESB = {
 };
 
 export const ESBS = {
-  addr: '0x5Daa79222c2Be77Ae76F9FcddC64dB0A5E6AeD82', // once contract is deployed with the proxy this will need change
+  addr: '0xdbab64b9669e3290b367a1c261a44323a62a7ae4', // once contract is deployed with the proxy this will need change
   decimals: 18, // fine
   symbol: 'ESBS', // will become ESBS after deployed
 };
