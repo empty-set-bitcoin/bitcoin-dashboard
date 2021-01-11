@@ -2,10 +2,10 @@ import Web3 from 'web3';
 
 import BigNumber from 'bignumber.js';
 import { UniswapV2Router02 } from '../constants/contracts';
-import { ESD, UNI, USDC } from '../constants/tokens';
+import { ESB, UNI, WBTC } from '../constants/tokens';
 import { POOL_EXIT_LOCKUP_EPOCHS } from '../constants/values';
 
-const dollarAbi = require('../constants/abi/Dollar.json');
+const bitcoinAbi = require('../constants/abi/Bitcoin.json');
 const daoAbi = require('../constants/abi/Implementation.json');
 const poolAbi = require('../constants/abi/Pool.json');
 const uniswapRouterAbi = require('../constants/abi/UniswapV2Router02.json');
@@ -26,12 +26,12 @@ if (window.ethereum !== undefined) {
  */
 export const getTokenBalance = async (token, account) => {
   if (account === '') return '0';
-  const tokenContract = new web3.eth.Contract(dollarAbi, token);
+  const tokenContract = new web3.eth.Contract(bitcoinAbi, token);
   return tokenContract.methods.balanceOf(account).call();
 };
 
 export const getTokenTotalSupply = async (token) => {
-  const tokenContract = new web3.eth.Contract(dollarAbi, token);
+  const tokenContract = new web3.eth.Contract(bitcoinAbi, token);
   return tokenContract.methods.totalSupply().call();
 };
 
@@ -43,11 +43,11 @@ export const getTokenTotalSupply = async (token) => {
  * @return {Promise<string>}
  */
 export const getTokenAllowance = async (token, account, spender) => {
-  const tokenContract = new web3.eth.Contract(dollarAbi, token);
+  const tokenContract = new web3.eth.Contract(bitcoinAbi, token);
   return tokenContract.methods.allowance(account, spender).call();
 };
 
-// Døllar Protocol
+// Bitcoin Protocol
 
 /**
  *
@@ -426,7 +426,7 @@ export const getCost = async (amount) => {
   // eslint-disable-next-line no-unused-vars
   const [inputAmount, _] = await exchange.methods.getAmountsIn(
     new BigNumber(amount).toFixed(),
-    [USDC.addr, ESD.addr],
+    [WBTC.addr, ESB.addr],
   ).call();
   return inputAmount;
 };
@@ -436,7 +436,7 @@ export const getProceeds = async (amount) => {
   // eslint-disable-next-line no-unused-vars
   const [_, outputAmount] = await exchange.methods.getAmountsOut(
     new BigNumber(amount).toFixed(),
-    [ESD.addr, USDC.addr],
+    [ESB.addr, WBTC.addr],
   ).call();
   return outputAmount;
 };
@@ -450,7 +450,7 @@ export const getInstantaneousPrice = async () => {
   const [reserve, token0] = await Promise.all([getReserves(), getToken0()]);
   const token0Balance = new BigNumber(reserve.reserve0);
   const token1Balance = new BigNumber(reserve.reserve1);
-  if (token0.toLowerCase() === USDC.addr.toLowerCase()) {
+  if (token0.toLowerCase() === WBTC.addr.toLowerCase()) {
     return token0Balance.multipliedBy(new BigNumber(10).pow(12)).dividedBy(token1Balance);
   }
   return token1Balance.multipliedBy(new BigNumber(10).pow(12)).dividedBy(token0Balance);
@@ -465,7 +465,7 @@ export const getToken0 = async () => {
 
 export const getPoolStatusOf = async (pool, account) => {
   const poolContract = new web3.eth.Contract(poolAbi, pool);
-  return poolContract.methods.statusOf(account).call();
+  return poolContract.methods.statusOf(account, 10).call();
 };
 
 /**
@@ -500,7 +500,7 @@ export const getPoolBalanceOfStaged = async (pool, account) => {
 export const getPoolBalanceOfRewarded = async (pool, account) => {
   if (account === '') return '0';
   const poolContract = new web3.eth.Contract(poolAbi, pool);
-  return poolContract.methods.balanceOfRewarded(account).call();
+  return poolContract.methods.balanceOfRewarded(account, WBTC.addr).call();
 };
 
 /**
@@ -533,7 +533,7 @@ export const getPoolTotalBonded = async (pool) => {
  */
 export const getPoolTotalRewarded = async (pool) => {
   const poolContract = new web3.eth.Contract(poolAbi, pool);
-  return poolContract.methods.totalRewarded().call();
+  return poolContract.methods.totalRewarded(WBTC.addr).call();
 };
 
 /**

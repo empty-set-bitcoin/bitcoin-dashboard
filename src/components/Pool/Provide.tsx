@@ -8,7 +8,7 @@ import {
 } from '../common/index';
 import {approve, providePool} from '../../utils/web3';
 import {isPos, toBaseUnitBN, toTokenUnitsBN} from '../../utils/number';
-import {ESD, USDC} from "../../constants/tokens";
+import {ESB, WBTC} from "../../constants/tokens";
 import {MAX_UINT256} from "../../constants/values";
 import BigNumberInput from "../common/BigNumberInput";
 
@@ -16,48 +16,48 @@ type ProvideProps = {
   poolAddress: string,
   user: string,
   rewarded: BigNumber,
-  pairBalanceESD: BigNumber,
-  pairBalanceUSDC: BigNumber,
-  userUSDCBalance: BigNumber,
-  userUSDCAllowance: BigNumber,
+  pairBalanceESB: BigNumber,
+  pairBalanceWBTC: BigNumber,
+  userWBTCBalance: BigNumber,
+  userWBTCAllowance: BigNumber,
   status: number,
 };
 
 function Provide({
-  poolAddress, user, rewarded, pairBalanceESD, pairBalanceUSDC, userUSDCBalance, userUSDCAllowance, status
+  poolAddress, user, rewarded, pairBalanceESB, pairBalanceWBTC, userWBTCBalance, userWBTCAllowance, status
 }: ProvideProps) {
   const [provideAmount, setProvideAmount] = useState(new BigNumber(0));
-  const [usdcAmount, setUsdcAmount] = useState(new BigNumber(0));
+  const [wbtcAmount, setWbtcAmount] = useState(new BigNumber(0));
 
-  const USDCToESDRatio = pairBalanceUSDC.isZero() ? new BigNumber(1) : pairBalanceUSDC.div(pairBalanceESD);
+  const WBTCToESBRatio = pairBalanceWBTC.isZero() ? new BigNumber(1) : pairBalanceWBTC.div(pairBalanceESB);
 
-  const onChangeAmountESD = (amountESD) => {
-    if (!amountESD) {
+  const onChangeAmountESB = (amountESB) => {
+    if (!amountESB) {
       setProvideAmount(new BigNumber(0));
-      setUsdcAmount(new BigNumber(0));
+      setWbtcAmount(new BigNumber(0));
       return;
     }
 
-    const amountESDBN = new BigNumber(amountESD)
-    setProvideAmount(amountESDBN);
+    const amountESBBN = new BigNumber(amountESB)
+    setProvideAmount(amountESBBN);
 
-    const amountESDBU = toBaseUnitBN(amountESDBN, ESD.decimals);
-    const newAmountUSDC = toTokenUnitsBN(
-      amountESDBU.multipliedBy(USDCToESDRatio).integerValue(BigNumber.ROUND_FLOOR),
-      ESD.decimals);
-    setUsdcAmount(newAmountUSDC);
+    const amountESBBU = toBaseUnitBN(amountESBBN, ESB.decimals);
+    const newAmountWBTC = toTokenUnitsBN(
+      amountESBBU.multipliedBy(WBTCToESBRatio).integerValue(BigNumber.ROUND_FLOOR),
+      ESB.decimals);
+    setWbtcAmount(newAmountWBTC);
   };
 
   return (
     <Box heading="Provide">
-      {userUSDCAllowance.comparedTo(MAX_UINT256.dividedBy(2)) > 0 ?
+      {userWBTCAllowance.comparedTo(MAX_UINT256.dividedBy(2)) > 0 ?
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {/* total rewarded */}
           <div style={{flexBasis: '32%'}}>
-            <BalanceBlock asset="Rewarded" balance={rewarded} suffix={"ESD"} />
+            <BalanceBlock asset="Rewarded" balance={rewarded} suffix={"ESB"} />
           </div>
           <div style={{flexBasis: '33%'}}>
-            <BalanceBlock asset="USDC Balance" balance={userUSDCBalance} suffix={"USDC"} />
+            <BalanceBlock asset="WBTC Balance" balance={userWBTCBalance} suffix={"WBTC"} />
           </div>
           <div style={{flexBasis: '2%'}}/>
           {/* Provide liquidity using Pool rewards */}
@@ -66,15 +66,15 @@ function Provide({
               <div style={{width: '60%', minWidth: '6em'}}>
                 <>
                   <BigNumberInput
-                    adornment="ESD"
+                    adornment="ESB"
                     value={provideAmount}
-                    setter={onChangeAmountESD}
+                    setter={onChangeAmountESB}
                     disabled={status === 1}
                   />
-                  <PriceSection label="Requires " amt={usdcAmount} symbol=" USDC"/>
+                  <PriceSection label="Requires " amt={wbtcAmount} symbol=" WBTC"/>
                   <MaxButton
                     onClick={() => {
-                      onChangeAmountESD(rewarded);
+                      onChangeAmountESB(rewarded);
                     }}
                   />
                 </>
@@ -87,11 +87,11 @@ function Provide({
                   onClick={() => {
                     providePool(
                       poolAddress,
-                      toBaseUnitBN(provideAmount, ESD.decimals),
+                      toBaseUnitBN(provideAmount, ESB.decimals),
                       (hash) => setProvideAmount(new BigNumber(0))
                     );
                   }}
-                  disabled={poolAddress === '' || status !== 0 || !isPos(provideAmount) || usdcAmount.isGreaterThan(userUSDCBalance)}
+                  disabled={poolAddress === '' || status !== 0 || !isPos(provideAmount) || wbtcAmount.isGreaterThan(userWBTCBalance)}
                 />
               </div>
             </div>
@@ -101,20 +101,20 @@ function Provide({
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {/* total rewarded */}
           <div style={{flexBasis: '32%'}}>
-            <BalanceBlock asset="Rewarded" balance={rewarded} suffix={"ESD"} />
+            <BalanceBlock asset="Rewarded" balance={rewarded} suffix={"ESB"} />
           </div>
           <div style={{flexBasis: '33%'}}>
-            <BalanceBlock asset="USDC Balance" balance={userUSDCBalance} suffix={"USDC"} />
+            <BalanceBlock asset="WBTC Balance" balance={userWBTCBalance} suffix={"WBTC"} />
           </div>
           <div style={{flexBasis: '2%'}}/>
-          {/* Approve Pool to spend USDC */}
+          {/* Approve Pool to spend WBTC */}
           <div style={{flexBasis: '33%', paddingTop: '2%'}}>
             <Button
               wide
               icon={<IconCirclePlus/>}
               label="Approve"
               onClick={() => {
-                approve(USDC.addr, poolAddress);
+                approve(WBTC.addr, poolAddress);
               }}
               disabled={poolAddress === '' || user === ''}
             />
@@ -122,7 +122,7 @@ function Provide({
         </div>
       }
       <div style={{width: '100%', paddingTop: '2%', textAlign: 'center'}}>
-        <span style={{ opacity: 0.5 }}> Zap your rewards directly to LP by providing more USDC </span>
+        <span style={{ opacity: 0.5 }}> Zap your rewards directly to LP by providing more WBTC </span>
       </div>
     </Box>
   );

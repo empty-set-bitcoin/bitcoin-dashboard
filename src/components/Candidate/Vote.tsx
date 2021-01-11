@@ -8,7 +8,7 @@ import {
 } from '../common/index';
 import {recordVote} from '../../utils/web3';
 
-import {ESDS} from "../../constants/tokens";
+import {ESBS} from "../../constants/tokens";
 import TextBlock from "../common/TextBlock";
 
 type VoteProps = {
@@ -28,7 +28,7 @@ function Vote({
       <div style={{display: 'flex'}}>
         {/* User stake */}
         <div style={{width: '20%'}}>
-          <BalanceBlock asset="My Stake" balance={stake} suffix={ "ESDS"}/>
+          <BalanceBlock asset="My Stake" balance={stake} suffix={ "ESBS"}/>
         </div>
         <div style={{width: '20%'}}>
           <TextBlock label="My Vote" text={VOTE_TYPE_MAP[vote]}/>
@@ -41,7 +41,7 @@ function Vote({
             label="Unvote"
             onClick={() => {
               recordVote(
-                ESDS.addr,
+                ESBS.addr,
                 candidate,
                 0 // UNDECIDED
               );
@@ -58,7 +58,7 @@ function Vote({
             label="Accept"
             onClick={() => {
               recordVote(
-                ESDS.addr,
+                ESBS.addr,
                 candidate,
                 1 // APPROVE
               );
@@ -76,7 +76,7 @@ function Vote({
                 label="Reject"
                 onClick={() => {
                   recordVote(
-                    ESDS.addr,
+                    ESBS.addr,
                     candidate,
                     2 // REJECT
                   );

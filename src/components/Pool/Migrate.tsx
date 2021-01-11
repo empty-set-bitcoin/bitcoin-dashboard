@@ -8,7 +8,7 @@ import {
 } from '../common/index';
 import {claimPool, unbondPool, withdrawPool} from '../../utils/web3';
 import {isPos, toBaseUnitBN} from '../../utils/number';
-import {ESD, UNI} from "../../constants/tokens";
+import {ESB, UNI} from "../../constants/tokens";
 
 type MigrateProps = {
   legacyPoolAddress: string,
@@ -71,11 +71,11 @@ function Migrate({
             </div>
           </div>
         </div>
-        {/* Claim ESD within Pool */}
+        {/* Claim ESB within Pool */}
         <div style={{flexBasis: '32%', paddingTop: '2%'}}>
           <div style={{display: 'flex'}}>
             <div style={{width: '60%'}}>
-              <BalanceBlock asset="Claimable" balance={claimable} suffix={"ESD"} />
+              <BalanceBlock asset="Claimable" balance={claimable} suffix={"ESB"} />
               <Button
                 wide
                 icon={<IconArrowDown/>}
@@ -83,7 +83,7 @@ function Migrate({
                 onClick={() => {
                   claimPool(
                     legacyPoolAddress,
-                    toBaseUnitBN(claimable, ESD.decimals),
+                    toBaseUnitBN(claimable, ESB.decimals),
                     (hash) => setClaimed(hash.length > 0)
                   );
                 }}

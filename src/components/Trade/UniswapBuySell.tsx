@@ -6,23 +6,23 @@ import BigNumber from 'bignumber.js';
 import {
   BalanceBlock, MaxButton, PriceSection,
 } from '../common/index';
-import {buyESD, sellESD} from '../../utils/web3';
+import {buyESB, sellESB} from '../../utils/web3';
 
 import { getCost, getProceeds } from '../../utils/infura';
 
 
 import {isPos, toBaseUnitBN, toTokenUnitsBN} from '../../utils/number';
-import {ESD, USDC} from "../../constants/tokens";
+import {ESB, WBTC} from "../../constants/tokens";
 import {decreaseWithSlippage, increaseWithSlippage} from "../../utils/calculation";
 import BigNumberInput from "../common/BigNumberInput";
 
 type UniswapBuySellProps = {
-  userBalanceESD: BigNumber,
-  pairBalanceESD: BigNumber
+  userBalanceESB: BigNumber,
+  pairBalanceESB: BigNumber
 };
 
 function UniswapBuySell({
-  userBalanceESD, pairBalanceESD
+  userBalanceESB, pairBalanceESB
 }: UniswapBuySellProps) {
   const [buyAmount, setBuyAmount] = useState(new BigNumber(0));
   const [sellAmount, setSellAmount] = useState(new BigNumber(0));
@@ -35,12 +35,12 @@ function UniswapBuySell({
       setCost(new BigNumber(0));
       return;
     }
-    if (buyAmountBN.gte(pairBalanceESD)) {
+    if (buyAmountBN.gte(pairBalanceESB)) {
       setCost(new BigNumber(0));
       return;
     }
-    const cost = await getCost(toBaseUnitBN(buyAmountBN, ESD.decimals));
-    setCost(toTokenUnitsBN(new BigNumber(cost), USDC.decimals));
+    const cost = await getCost(toBaseUnitBN(buyAmountBN, ESB.decimals));
+    setCost(toTokenUnitsBN(new BigNumber(cost), WBTC.decimals));
   };
 
   const updateProceeds = async (sellAmount) => {
@@ -49,8 +49,8 @@ function UniswapBuySell({
       setProceeds(new BigNumber(0));
       return;
     }
-    const proceeds = await getProceeds(toBaseUnitBN(sellAmountBN, ESD.decimals));
-    setProceeds(toTokenUnitsBN(new BigNumber(proceeds), USDC.decimals));
+    const proceeds = await getProceeds(toBaseUnitBN(sellAmountBN, ESB.decimals));
+    setProceeds(toTokenUnitsBN(new BigNumber(proceeds), WBTC.decimals));
   };
 
   return (
@@ -58,7 +58,7 @@ function UniswapBuySell({
       <div style={{ display: 'flex' }}>
         {/* total Issued */}
         <div style={{ width: '30%' }}>
-          <BalanceBlock asset="Døllar Balance" balance={userBalanceESD} suffix={" ESD"}/>
+          <BalanceBlock asset="Bitcoin Balance" balance={userBalanceESB} suffix={" ESB"}/>
         </div>
         {/* Buy Token from Uniswap */}
         <div style={{ width: '32%', paddingTop: '2%' }}>
@@ -66,7 +66,7 @@ function UniswapBuySell({
             <div style={{ width: '60%' }}>
               <>
                 <BigNumberInput
-                  adornment="ESD"
+                  adornment="ESB"
                   value={buyAmount}
                   setter={(value) => {
                     setBuyAmount(value);
@@ -81,15 +81,15 @@ function UniswapBuySell({
                 icon={<IconCirclePlus />}
                 label="Buy"
                 onClick={() => {
-                  buyESD(
-                    toBaseUnitBN(buyAmount, ESD.decimals),
-                    increaseWithSlippage(toBaseUnitBN(cost, USDC.decimals)),
+                  buyESB(
+                    toBaseUnitBN(buyAmount, ESB.decimals),
+                    increaseWithSlippage(toBaseUnitBN(cost, WBTC.decimals)),
                   );
                 }}
               />
             </div>
           </div>
-          <PriceSection label="Cost: " amt={cost} symbol=" USDC" />
+          <PriceSection label="Cost: " amt={cost} symbol=" WBTC" />
         </div>
         <div style={{ width: '6%' }} />
         {/* Sell Token on Uniswap */}
@@ -98,7 +98,7 @@ function UniswapBuySell({
             <div style={{ width: '60%' }}>
               <>
                 <BigNumberInput
-                  adornment="ESD"
+                  adornment="ESB"
                   value={sellAmount}
                   setter={(value) => {
                     setSellAmount(value);
@@ -107,11 +107,11 @@ function UniswapBuySell({
                 />
                 <MaxButton
                   onClick={() => {
-                    setSellAmount(userBalanceESD);
-                    updateProceeds(userBalanceESD);
+                    setSellAmount(userBalanceESB);
+                    updateProceeds(userBalanceESB);
                   }}
                 />
-                <PriceSection label="Proceeds: " amt={proceeds} symbol=" USDC"/>
+                <PriceSection label="Proceeds: " amt={proceeds} symbol=" WBTC"/>
               </>
             </div>
             <div style={{ width: '40%' }}>
@@ -120,9 +120,9 @@ function UniswapBuySell({
                 icon={<IconCircleMinus />}
                 label="Sell"
                 onClick={() => {
-                  sellESD(
-                    toBaseUnitBN(sellAmount, ESD.decimals),
-                    decreaseWithSlippage(toBaseUnitBN(proceeds, USDC.decimals)),
+                  sellESB(
+                    toBaseUnitBN(sellAmount, ESB.decimals),
+                    decreaseWithSlippage(toBaseUnitBN(proceeds, WBTC.decimals)),
                   );
                 }}
               />

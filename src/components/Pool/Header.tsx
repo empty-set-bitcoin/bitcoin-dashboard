@@ -8,8 +8,8 @@ import {ownership} from "../../utils/number";
 type PoolPageHeaderProps = {
   accountUNIBalance: BigNumber,
   accountBondedBalance: BigNumber,
-  accountRewardedESDBalance: BigNumber,
-  accountClaimableESDBalance: BigNumber,
+  accountRewardedESBBalance: BigNumber,
+  accountClaimableESBBalance: BigNumber,
   poolTotalBonded: BigNumber,
   accountPoolStatus: number,
   unlocked: number,
@@ -22,17 +22,17 @@ function status(accountStatus, unlocked) {
 }
 
 const PoolPageHeader = ({
-  accountUNIBalance, accountBondedBalance, accountRewardedESDBalance, accountClaimableESDBalance, poolTotalBonded, accountPoolStatus, unlocked
+  accountUNIBalance, accountBondedBalance, accountRewardedESBBalance, accountClaimableESBBalance, poolTotalBonded, accountPoolStatus, unlocked
 }: PoolPageHeaderProps) => (
   <div style={{ padding: '2%', display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
     <div style={{ flexBasis: '20%' }}>
       <BalanceBlock asset="Balance" balance={accountUNIBalance}  suffix={" UNI-V2"}/>
     </div>
     <div style={{ flexBasis: '20%' }}>
-      <BalanceBlock asset="Rewarded" balance={accountRewardedESDBalance} suffix={" ESD"} />
+      <BalanceBlock asset="Rewarded" balance={accountRewardedESBBalance} suffix={" ESB"} />
     </div>
     <div style={{ flexBasis: '20%' }}>
-      <BalanceBlock asset="Claimable" balance={accountClaimableESDBalance} suffix={" ESD"} />
+      <BalanceBlock asset="Claimable" balance={accountClaimableESBBalance} suffix={" ESB"} />
     </div>
     <div style={{ flexBasis: '20%' }}>
       <BalanceBlock asset="Pool Ownership" balance={ownership(accountBondedBalance, poolTotalBonded)}  suffix={"%"}/>

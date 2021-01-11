@@ -4,26 +4,26 @@ import BigNumber from 'bignumber.js';
 import { BalanceBlock, AddressBlock } from '../common/index';
 
 type TradePageHeaderProps = {
-  pairBalanceESD: BigNumber,
-  pairBalanceUSDC: BigNumber,
+  pairBalanceESB: BigNumber,
+  pairBalanceWBTC: BigNumber,
   uniswapPair: string,
 };
 
 const TradePageHeader = ({
-  pairBalanceESD, pairBalanceUSDC, uniswapPair,
+  pairBalanceESB, pairBalanceWBTC, uniswapPair,
 }: TradePageHeaderProps) => {
-  const price = pairBalanceUSDC.dividedBy(pairBalanceESD);
+  const price = pairBalanceWBTC.dividedBy(pairBalanceESB);
 
   return (
     <div style={{ padding: '2%', display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
       <div style={{ flexBasis: '25%' }}>
-        <BalanceBlock asset="ESD Price" balance={price} suffix={"USDC"}/>
+        <BalanceBlock asset="ESB Price" balance={price} suffix={"WBTC"}/>
       </div>
       <div style={{ flexBasis: '25%' }}>
-        <BalanceBlock asset="ESD Liquidity" balance={pairBalanceESD} suffix={"ESD"}/>
+        <BalanceBlock asset="ESB Liquidity" balance={pairBalanceESB} suffix={"ESB"}/>
       </div>
       <div style={{ flexBasis: '25%' }}>
-        <BalanceBlock asset="USDC Liquidity" balance={pairBalanceUSDC} suffix={"USDC"}/>
+        <BalanceBlock asset="WBTC Liquidity" balance={pairBalanceWBTC} suffix={"WBTC"}/>
       </div>
       <div style={{ flexBasis: '25%' }}>
         <>

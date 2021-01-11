@@ -20,17 +20,19 @@ import HomePageNoWeb3 from "./components/HomePageNoWeb3";
 
 function App() {
   const storedTheme = getPreference('theme', 'light');
+  console.log(storedTheme)
 
   const [hasWeb3, setHasWeb3] = useState(false);
   const [user, setUser] = useState(''); // the current connected user
   const [theme, setTheme] = useState(storedTheme);
+
 
   const updateTheme = (newTheme: string) => {
     setTheme(newTheme);
     updateModalMode(newTheme);
     storePreference('theme', newTheme);
   };
-
+  
   useEffect(() => {
     let isCancelled = false;
 
