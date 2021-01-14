@@ -11,7 +11,7 @@ import {
   getTokenBalance,
   getPoolFluidUntil
 } from '../../utils/infura';
-import {ESB, UNI, WBTC} from "../../constants/tokens";
+import {ESB, UNI, WBTC, ESBS } from "../../constants/tokens";
 import {POOL_EXIT_LOCKUP_EPOCHS} from "../../constants/values";
 import { toTokenUnitsBN } from '../../utils/number';
 // import { Header } from '@aragon/ui';
@@ -104,14 +104,14 @@ function Pool({ user }: {user: string}) {
 
         getPoolBalanceOfRewarded(poolAddressStr, user),
         getPoolBalanceOfClaimable(poolAddressStr, user),
-        getPoolStatusOf(poolAddressStr, user),
+        getPoolStatusOf(poolAddressStr, user, ESBS.addr),
         getPoolFluidUntil(poolAddressStr, user),
 
         getPoolBalanceOfStaged(legacyPoolAddress, user),
         getPoolBalanceOfBonded(legacyPoolAddress, user),
         getPoolBalanceOfRewarded(legacyPoolAddress, user),
         getPoolBalanceOfClaimable(legacyPoolAddress, user),
-        getPoolStatusOf(legacyPoolAddress, user)
+        getPoolStatusOf(legacyPoolAddress, user, ESBS.addr)
       ]);
 
       const poolTotalBonded = toTokenUnitsBN(poolTotalBondedStr, ESB.decimals);

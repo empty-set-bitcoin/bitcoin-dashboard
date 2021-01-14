@@ -463,9 +463,13 @@ export const getToken0 = async () => {
 
 // Pool
 
-export const getPoolStatusOf = async (pool, account) => {
-  const poolContract = new web3.eth.Contract(poolAbi, pool);
-  return poolContract.methods.statusOf(account, 30).call();
+export const getPoolStatusOf = async (pool, account, dao) => {
+  // Both the inputs are addresses ()
+  return getEpoch(dao).then(epochNummber => {
+    const poolContract = new web3.eth.Contract(poolAbi, pool);
+    return poolContract.methods.statusOf(account, epochNummber).call();
+  }).catch(console.error)
+  
 };
 
 /**
